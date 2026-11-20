@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cross-Border &amp; FX — Snow Pack</title>
+  <meta name="description" content="Grounded, self-verifying cross-border payments analytics on Snowflake. See where the FX desk earns — volume, margin and PnL by corridor — with a verifier that refuses unsupported claims." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <p class="eyebrow">SNOW PACK · FINANCIAL SERVICES · PAYMENTS</p>
+      <h1>Cross-Border &amp; FX</h1>
+      <p class="lede">An app that reads a payments processor's cross-border book &mdash; settlement volume, FX margin (bps) and FX PnL by corridor, where every number is pulled from a governed semantic view and a verifier refuses to ship an unsupported claim &mdash; with a Cortex Agent you can explore in Snowsight.</p>
+      <div class="cta">
+        <a class="btn primary" href="try/">Try it &mdash; no account</a>
+        <a class="btn" href="https://github.com/sfc-gh-jsoliz/sfguide-cross-border-fx">View the repo</a>
+      </div>
+      <p class="trust">Fully synthetic corridor book and FX series. Real exchange-rate data is a paid Marketplace add-on; this pack ships a synthetic FX series and is illustrative, not live inference.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="band">
+      <h2>The problem</h2>
+      <p>You settle billions across dozens of corridors. The treasury question is always the same: <em>which lanes are growing, and where is the FX margin actually earning?</em> Putting an LLM in front of that book is easy; trusting its numbers is not. This pack shows an agent whose answers are grounded only in governed corridor data, with a verification step that catches anything unsupported &mdash; the difference between a toy and something a treasury owner will sign off.</p>
+    </section>
+
+    <section class="steps">
+      <article>
+        <h3>01 / See</h3>
+        <p>A gallery of corridor / FX notes, each badged <strong>Verified</strong> or <strong>Needs review</strong>. Generate one that benchmarks every corridor on volume, FX margin and FX PnL.</p>
+      </article>
+      <article>
+        <h3>02 / Try</h3>
+        <p>Explore in your browser on synthetic data &mdash; no account, no install. Or run one SQL script in your own account to build the same objects on synthetic tables.</p>
+      </article>
+      <article>
+        <h3>03 / Deploy</h3>
+        <p>Run <code>setup.sql</code> to build the semantic view and agent, then deploy the Streamlit app. Swap in a paid Marketplace FX listing and your own settlements, and the same app runs on your real cross-border book. Adapt with Cortex Code.</p>
+      </article>
+    </section>
+
+    <section class="band">
+      <h2>How it works</h2>
+      <ol class="how">
+        <li><strong>Semantic view</strong> &mdash; governed business meaning over the corridor book (volume, FX rate, FX margin, FX PnL by corridor and month); Cortex Analyst answers natural-language questions against it.</li>
+        <li><strong>Fact pack</strong> &mdash; only the benchmarked corridor rows for the window; the agent's entire allowed universe of numbers.</li>
+        <li><strong>Grounded draft</strong> &mdash; the model writes the note under DATA RULES: copy figures exactly, basis points are basis points, no estimates, no hedging, no outside benchmarks.</li>
+        <li><strong>Verifier</strong> &mdash; a second pass checks every claim against the fact pack and flags the note Verified or Needs review &mdash; the guardrail that matters most when the FX series is a placeholder.</li>
+      </ol>
+    </section>
+
+    <section class="band">
+      <h2>The corridor book</h2>
+      <p>Each corridor (origin&rarr;destination country / currency pair &mdash; USD/MXN, USD/EUR, USD/GBP, USD/INR, USD/BRL and more) carries monthly cross-border volume, a settled local-currency amount, an FX margin in basis points, and the resulting FX PnL:</p>
+      <ol class="how">
+        <li><code>fx_pnl_usd = cross_border_volume_usd &times; fx_margin_bps / 10000</code> &mdash; track where the FX desk makes money by corridor, and how volume is growing month over month.</li>
+        <li>High-margin lanes (e.g. USD/BRL, USD/INR) earn more per dollar settled; high-volume, thin-margin lanes (USD/EUR, USD/CAD) earn on scale &mdash; the note surfaces both.</li>
+      </ol>
+    </section>
+
+    <section class="band">
+      <h2>Capabilities</h2>
+      <ul class="tags">
+        <li>Cortex Agents</li><li>Cortex Analyst</li><li>Semantic Views</li>
+        <li>Cortex AI_COMPLETE</li><li>Streamlit in Snowflake</li><li>Snowflake SQL</li>
+      </ul>
+    </section>
+
+    <section class="band">
+      <h2>Screenshots</h2>
+      <figure>
+        <img src="assets/cross-border-fx-1.png" alt="Streamlit-in-Snowflake corridor / FX overview: the corridor benchmark table (volume, FX margin in bps, FX PnL) with scenario controls" style="max-width:100%;height:auto;border-radius:8px;" />
+        <figcaption>Streamlit-in-Snowflake example &mdash; corridor FX overview.</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/cross-border-fx-2.png" alt="A generated corridor / FX note with the verifier badge and flagged edits" style="max-width:100%;height:auto;border-radius:8px;" />
+        <figcaption>Cortex AI_COMPLETE draft + verifier (sample data).</figcaption>
+      </figure>
+    </section>
+
+    <section class="band">
+      <h2>Learn more</h2>
+      <ul class="how">
+        <li><a href="https://docs.snowflake.com/en/user-guide/snowflake-cortex/aisql">Snowflake Cortex AISQL (<code>AI_COMPLETE</code>)</a></li>
+        <li><a href="https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents">Cortex Agents</a></li>
+        <li><a href="https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst">Cortex Analyst</a></li>
+        <li><a href="https://docs.snowflake.com/en/developer-guide/streamlit/about-streamlit">Streamlit in Snowflake</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <p><strong>Cross-Border &amp; FX</strong> &middot; Owner: Javier Soliz &middot; Last reviewed: 2026-11</p>
+      <p>Apache 2.0. Illustrative example provided as-is, not an official Snowflake product, not supported by Snowflake Support. Contains no customer data; corridor volumes and FX rates are synthetic. Review and test before any production use.</p>
+      <p><a href="try/">Try</a> &middot; <a href="https://github.com/sfc-gh-jsoliz/sfguide-cross-border-fx">Repo</a> &middot; <a href="https://sfc-gh-ooral.github.io/snow-packs/">Snow Packs</a></p>
+    </div>
+  </footer>
+</body>
+</html>
