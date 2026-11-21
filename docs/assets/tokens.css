@@ -1,0 +1,9 @@
+/* Ferrovane brand tokens (docs/DESIGN.md), shared by the guide and the hosted example. */
+@font-face{font-family:"Space Grotesk";src:url("../fonts/space-grotesk-latin-400-normal.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Space Grotesk";src:url("../fonts/space-grotesk-latin-500-normal.woff2") format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"Space Grotesk";src:url("../fonts/space-grotesk-latin-600-normal.woff2") format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:"Space Grotesk";src:url("../fonts/space-grotesk-latin-700-normal.woff2") format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url("../fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url("../fonts/jetbrains-mono-latin-600-normal.woff2") format("woff2");font-weight:600;font-display:swap}
+:root{--pine950:#081F1B;--pine900:#0B2E28;--pine700:#13493F;--pine500:#1F6F5F;--mist:#EEF3F1;--surface:#fff;--surface2:#E3ECE8;--line:#CFDDD7;--ink:#0F1F1B;--ink2:#3F524B;--muted:#56675F;--saffron:#F2B544;--saffronInk:#7A4F00;--saffronSoft:#FBEFD3;--fx:#245C8A;--gain:#17663F;--gainSoft:#DDF1E5;--loss:#A3341F;--lossSoft:#F8E1DA;
+--sans:"Space Grotesk",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;--mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace}

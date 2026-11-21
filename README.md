@@ -1,89 +1,152 @@
 # Cross-Border & FX
 
-A grounded, self-verifying cross-border payments analytics example on Snowflake: an app calls Cortex AI_COMPLETE to write a one-page corridor / FX note — settlement volume, FX margin (bps) and FX PnL by corridor — using only a governed semantic view, then a verifier fact-checks the draft and badges it **Verified** or **Needs review**.
+**Know which corridors earn their volume, every month-end.** A Snowflake example for the FX and treasury desk of a payments processor: settlement volume, FX margin (bps) and FX P&L by corridor in one app, plus AI desk notes that Cortex `AI_COMPLETE` drafts from a fact pack of allowed numbers and a second `AI_COMPLETE` pass fact-checks before anyone reads them.
 
-Built for a payments processor / merchant acquirer FX & treasury team, on fully synthetic data.
+The app is branded as **Ferrovane Corridor Desk**, a fictional processor's FX desk. All data is synthetic.
+
+- Guide: https://sfc-gh-jsoliz.github.io/sfguide-cross-border-fx/
+- Try it with no account: https://sfc-gh-jsoliz.github.io/sfguide-cross-border-fx/try/
 
 Owner: Javier Soliz · Last reviewed: November 2026
 
-This is not an official Snowflake product.
+This is an illustrative example, not an official Snowflake product, and not supported by Snowflake Support.
+
+![Corridor desk: month-end KPI tiles, stacked volume by corridor and ranked FX P&L](docs/images/01-desk.png)
 
 ## What it shows
 
-- A **Streamlit in Snowflake** app with a gallery of corridor / FX notes, each badged Verified / Needs review, and a sidebar that benchmarks every corridor and writes a grounded note.
-- A **grounded-generation + verification** loop: a fact pack of allowed numbers → a draft written under strict DATA RULES → a second-pass verifier that flags any unsupported or hedged claim.
-- A **Cortex Analyst semantic view** and a **Cortex Agent** over the same corridor book, explorable in Snowsight with natural-language questions.
-- Cross-border economics by corridor (origin→destination country / currency pair): `fx_pnl_usd = cross_border_volume_usd × fx_margin_bps / 10000`, with month-over-month volume growth.
+| Screen | What the reader does | Snowflake capability (Live mode) |
+|---|---|---|
+| **Desk** | Month-end KPIs with year-on-year trends, stacked volume by corridor, ranked 12-month FX P&L, corridor status counts | `CROSS_BORDER_BENCHMARK` view on a dedicated XSMALL warehouse |
+| **Corridors** | Search, filter by status and margin, sort any column, open a corridor's detail panel | Same view; status rules computed from it |
+| **FX & Margin** | FX paths indexed to July 2024, growth vs margin bubbles, margin heatmap | Same view |
+| **Desk Notes** | Pick a scope (all corridors or one), run the grounded note, read the verdict and the verifier's flags; open saved notes | Cortex `AI_COMPLETE` (`claude-sonnet-4-5`) twice: draft, then verify; results in `CROSS_BORDER_REPORTS` |
+| **Ask the Desk** | Ask plain-English questions; see the answer, the result table and the SQL | Cortex Agent `CROSS_BORDER_AGENT` with Cortex Analyst over semantic view `CROSS_BORDER_SV`, called with `SNOWFLAKE.CORTEX.DATA_AGENT_RUN` |
 
-## How it works
+Every screen has a **Sample / Live** switch in the top bar and an environment badge. Sample mode runs on the bundled synthetic data; its AI answers were captured from Live runs and are labeled **Sample AI response**, with a 4–8 second staged wait. Live mode never falls back to sample data: a failed query shows the error.
 
-- The **app** calls Snowflake Cortex `AI_COMPLETE` twice per run — once to draft the note under DATA RULES, once to verify it against the fact pack. The verifier returns a JSON verdict (status, residual hedges, flagged edits) that drives the badge.
-- **Setup** also creates a **Cortex Analyst semantic view** (`CROSS_BORDER_SV`) and a **Cortex Agent** (`CROSS_BORDER_AGENT`) over the corridor benchmark. These are explorable in Snowsight (AI & ML → Agents) for natural-language Q&A — they are **not** called by the Streamlit app, which uses `AI_COMPLETE` directly.
-- All numbers the model may use come from `CROSS_BORDER_BENCHMARK`, a single wide view at the corridor × month grain, so the FX join is strictly 1:1 with no fan-out.
+The grounded-note loop is the original pack's design: a fact pack (first and latest month-end per corridor) → a draft under strict DATA RULES → a verifier that returns `status`, `residual_hedges` and `edits` as JSON. On this synthetic data set, 7 of the 9 captured notes came back Verified; the verifier flagged the USD/MXN note for the hedge word "suggesting" and the all-corridors note for a wrong "Brazil led absolute growth" claim.
 
-## Prerequisites
+## Quick start: no account
 
-- **Snowflake Enterprise Edition or higher**, in a region where Cortex AISQL and Cortex Agents are available.
-- A Snowflake account with Cortex AI functions available in your region (`AI_COMPLETE` defaults to `claude-sonnet-4-5`; change the `MODEL` constant if your account differs).
-- A role that can `CREATE DATABASE` and `CREATE WAREHOUSE` (setup provisions a dedicated database and warehouse).
-- Streamlit in Snowflake enabled.
-- Sample mode is **fully synthetic** and needs no Marketplace purchase. **Real FX / exchange-rate data is not free** — it is a **paid Snowflake Marketplace add-on** (e.g. Cybersyn FX / exchange-rate listings). The pack ships a synthetic FX series so the whole example runs with no purchase; `app/setup.sql` documents the exact swap to a paid FX listing.
+Python 3.10 or later:
 
-## Setup
+```bash
+git clone https://github.com/sfc-gh-jsoliz/sfguide-cross-border-fx.git
+cd sfguide-cross-border-fx
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r app/requirements.txt
+streamlit run app/streamlit_app.py
+```
 
-1. Run [`app/setup_synthetic.sql`](app/setup_synthetic.sql) (TRY) or [`app/setup.sql`](app/setup.sql) (DEPLOY — still synthetic) in a Snowsight worksheet. Both create the dedicated database `SNOWPACK_CROSS_BORDER_FX`, schema `CORE`, and warehouse `SNOWPACK_CROSS_BORDER_FX_WH`, then build all objects. The only difference is the `CROSS_BORDER_DATA_SOURCE_INFO` note describing the paid-FX swap.
-2. Create the app **inside `SNOWPACK_CROSS_BORDER_FX.CORE`**: create the stage and the Streamlit app in that schema (upload [`app/streamlit_app.py`](app/streamlit_app.py) to a stage and `CREATE STREAMLIT` over it, or paste it into a new Streamlit in Snowsight). Keeping the stage and app in `SNOWPACK_CROSS_BORDER_FX.CORE` ensures `teardown.sql` removes them with the database. Run it as the owning role.
-3. (Optional) Chat with the agent in Snowsight → AI & ML → Agents → **Cross-Border FX Agent**.
+The app opens in Sample mode at http://localhost:8501. Or open the hosted example (link above), a dependency-free static copy of the same screens in `docs/try/`.
+
+## Prerequisites (Live mode)
+
+- Snowflake **Enterprise Edition** or higher, in a region where Cortex AI functions (`AI_COMPLETE` with `claude-sonnet-4-5`) and Cortex Agents are available. Change `MODEL` in `app/ai.py` if your region offers a different model.
+- A role that can create a role, a warehouse and a database, and grant `SNOWFLAKE.CORTEX_USER` (ACCOUNTADMIN, or USERADMIN plus SYSADMIN-level grants). Everything else runs as the pack's own role.
+- For the local Live app: a key pair registered on your Snowflake user.
+- Tested November 2026 with Streamlit 1.50.0, snowflake-snowpark-python 1.58, Python 3.12, on AWS US West.
+
+## Live mode
+
+1. Run [`sql/setup.sql`](sql/setup.sql) top to bottom in a Snowsight worksheet. It took **11 seconds** on an XSMALL warehouse in testing.
+2. Run the app one of two ways:
+   - **Locally, with key-pair auth** (never a password):
+
+     ```bash
+     export SNOWFLAKE_ACCOUNT=<orgname-accountname>
+     export SNOWFLAKE_USER=<YOUR_USER>
+     export SNOWFLAKE_PRIVATE_KEY_PATH=~/.snowflake/keys/<your_key>.p8
+     streamlit run app/streamlit_app.py
+     ```
+
+     The app connects as `CROSS_BORDER_FX_ROLE` on `SNOWPACK_CROSS_BORDER_FX_WH` (override with `SNOWFLAKE_ROLE` / `SNOWFLAKE_WAREHOUSE`) and opens in Live mode. Credentials stay in your shell; the app never asks for them.
+   - **As Streamlit in Snowflake.** Upload the contents of `app/` (keeping `views/`, `sample/`, `static/` and `.streamlit/`) to `@SNOWPACK_CROSS_BORDER_FX.CORE.APP_STAGE/ferrovane` in Snowsight, then run as `CROSS_BORDER_FX_ROLE`:
+
+     ```sql
+     CREATE OR REPLACE STREAMLIT SNOWPACK_CROSS_BORDER_FX.CORE.FERROVANE_CORRIDOR_DESK
+       FROM '@SNOWPACK_CROSS_BORDER_FX.CORE.APP_STAGE/ferrovane'
+       MAIN_FILE = 'streamlit_app.py'
+       QUERY_WAREHOUSE = SNOWPACK_CROSS_BORDER_FX_WH
+       TITLE = 'Ferrovane Corridor Desk';
+     ```
+
+     Inside Snowflake the app uses its own session and opens in Live mode.
+3. (Optional) Chat with the agent in Snowsight → AI & ML → Agents → **Cross-Border FX Agent**, or run the [notebook](notebook/lab-cross-border-fx.ipynb) for the same loop step by step.
+4. When you're done, run [`sql/cleanup.sql`](sql/cleanup.sql).
 
 ## Objects created
 
 | Object | Type | Purpose |
 |---|---|---|
-| `SNOWPACK_CROSS_BORDER_FX` | Database | Dedicated, isolated database for this pack |
-| `SNOWPACK_CROSS_BORDER_FX.CORE` | Schema | Holds all pack objects |
-| `SNOWPACK_CROSS_BORDER_FX_WH` | Warehouse | Dedicated XSMALL warehouse (auto-suspend 60s) |
-| `CROSS_BORDER_CORRIDOR` | Table | Corridor dimension (origin/dest country, currency pair, base FX rate) |
-| `CROSS_BORDER_FX_MONTHLY` | Table | Synthetic FX rate by currency pair and month (swap for a paid FX listing) |
-| `CROSS_BORDER_VOLUME_MONTHLY` | Table | Synthetic cross-border volume, FX margin (bps) and FX PnL by corridor and month |
-| `CROSS_BORDER_BENCHMARK` | View | Wide corridor × month benchmark with month-over-month volume growth |
-| `CROSS_BORDER_DATA_SOURCE_INFO` | View | Data-source marker (synthetic; documents the paid-FX go-live path) |
-| `CROSS_BORDER_SV` | Semantic view | Cortex Analyst model over the benchmark (facts, dimensions, metrics) |
-| `CROSS_BORDER_REPORTS` | Table | Persisted notes with verifier status, residual hedges and flagged edits |
-| `CROSS_BORDER_AGENT` | Cortex Agent | Natural-language agent over `CROSS_BORDER_SV` |
-| Streamlit app | Streamlit in Snowflake | The gallery + note-generation UI (`streamlit_app.py`) |
+| `CROSS_BORDER_FX_ROLE` | Role | Owns every pack object; granted `SNOWFLAKE.CORTEX_USER`, `CREATE DATABASE`, `CREATE WAREHOUSE` |
+| `SNOWPACK_CROSS_BORDER_FX_WH` | Warehouse | XSMALL, 60 s auto-suspend |
+| `SNOWPACK_CROSS_BORDER_FX` / `CORE` | Database / schema | Holds everything below |
+| `CROSS_BORDER_CORRIDOR` | Table | 8 corridors: countries, currency pair, starting FX rate |
+| `CROSS_BORDER_FX_MONTHLY` | Table | Synthetic FX rate per pair and month-end (192 rows) |
+| `CROSS_BORDER_VOLUME_MONTHLY` | Table | Synthetic volume, transactions, margin (bps) and FX P&L per corridor and month-end (192 rows) |
+| `CROSS_BORDER_BENCHMARK` | View | Corridor × month benchmark with month-over-month volume growth |
+| `CROSS_BORDER_DATA_SOURCE_INFO` | View | Data-source marker and the go-live note |
+| `CROSS_BORDER_SV` | Semantic view | Facts, dimensions and metrics for Cortex Analyst |
+| `CROSS_BORDER_AGENT` | Cortex Agent | Cortex Analyst tool over `CROSS_BORDER_SV` |
+| `CROSS_BORDER_REPORTS` | Table | Desk notes with verdict, flags, fact pack, model and latency |
+| `APP_STAGE` | Stage | Source files for the Streamlit in Snowflake app |
+| `FERROVANE_CORRIDOR_DESK` | Streamlit app | Only if you deploy it (step 2) |
 
-## Cost & time
+## Cost and time
 
-- Setup runs in a few minutes on the dedicated XSMALL warehouse; data generation is a handful of small `CREATE TABLE AS` statements.
-- The app incurs Cortex `AI_COMPLETE` token cost per note run (two calls: draft + verify). Each run is a short note over a small fact pack.
-- The warehouse auto-suspends after 60 seconds idle.
+Measured in November 2026 on AWS US West, XSMALL warehouse:
+
+- **Setup:** 11 seconds of warehouse time, billed as the 60-second minimum on resume (about 0.02 credits).
+- **Desk note:** 6–19 seconds per run (two `AI_COMPLETE` calls); about 0.007 AI credits per note on average across 56 calls.
+- **Ask the Desk:** 14–26 seconds per question (agent planning, Cortex Analyst SQL, answer).
+- **This whole verification** (setup, three rounds of note and agent capture, a full Live click-through) used about 0.25 warehouse credits and 0.19 AI credits.
+- The warehouse auto-suspends after 60 seconds idle. Prices vary by region and contract.
+
+## Synthetic data
+
+[`data/generate.py`](data/generate.py) builds the whole book with a fixed seed, so every run gives the same numbers, and writes it to `data/`, `app/sample/` and the `GENERATED DATA` block in `sql/setup.sql`. Sample and Live show the same figures (checked: 192 rows, equal values). [`data/README.md`](data/README.md) documents the drivers and the stories planted in the data.
+
+To rebuild after changing the generator: `npm run generate && npm run build:example` (or run the two Python scripts directly).
+
+## Go live with your own data
+
+Real FX rates are a paid Snowflake Marketplace add-on, so this pack ships a synthetic FX series. After subscribing to an FX listing, replace `CROSS_BORDER_FX_MONTHLY` with a view over it exposing `(currency_pair, month_end, fx_rate)`, and replace `CROSS_BORDER_VOLUME_MONTHLY` with your settlement data (same columns). The benchmark view, semantic view, agent and app are unchanged.
 
 ## Known limitations
 
-- All data is **synthetic** — corridor volumes and the FX series are generated, not real.
-- **Real FX / exchange-rate data is a paid Marketplace add-on**, not included; the pack ships a synthetic FX series so it runs with no purchase.
-- The static `try/` landing page uses **mocked AI responses** — illustrative, not live inference.
-- This is an illustrative example, not a production application. Review and test before any production use.
+- All data is synthetic, including the FX series.
+- The verifier is a second model pass, not a deterministic check; it can miss an error or flag a correct claim. Treat Verified as "no issues found", not proof.
+- Corridor status (Accelerating, Steady, Margin watch) is a simple rule on 3-month margin averages and 12-month FX P&L growth; tune it for your book.
+- Sample mode replays the four suggested agent questions and nine note scopes captured from Live; free-text questions need Live mode.
+- Streamlit in Snowflake: `CREATE STREAMLIT` from the staged files was verified, but the app was tested in a browser only when run locally (Sample and Live). Bundled fonts load through Streamlit static serving; where that isn't available the app falls back to system fonts.
+- The agent's answers go through `DATA_AGENT_RUN` (non-streaming), so the full answer appears after the call returns.
 
 ## Customize with Cortex Code
 
-Use Cortex Code to adapt this pack to your own corridors and margin economics. Example prompts:
+- "Add a USD/NGN and USD/PHP corridor to `data/generate.py`, regenerate the data and `sql/setup.sql`, and check the new lanes appear on every screen and in the desk note."
+- "Change the FX P&L metric in `CROSS_BORDER_SV` to net margin after a 3 bps hedging cost, and update the DATA RULES in `app/ai.py` so the note reports net margin."
+- "Add a verifier rule that flags any desk note claiming month-over-month volume growth above 40% as Needs review, and show the rule's result next to the model verdict."
 
-- "Add a USD/NGN and USD/PHP corridor to `CROSS_BORDER_CORRIDOR` and the monthly tables, then regenerate `CROSS_BORDER_BENCHMARK` so the new lanes flow through to the note."
-- "Change the FX PnL metric in `CROSS_BORDER_SV` to net margin after a 3 bps hedging cost, and update the DATA RULES in `streamlit_app.py` so the note reflects net margin."
-- "Add a verifier rule that flags any corridor note claiming month-over-month volume growth above 40% as needs review."
+## Repository layout
 
-## Cleanup
-
-Run [`app/teardown.sql`](app/teardown.sql) to drop the dedicated database (and all its objects) and the dedicated warehouse.
+```text
+app/            Streamlit app (streamlit_app.py, views/, data.py, ai.py, brand.py, sample/ data)
+sql/            setup.sql and cleanup.sql
+data/           Seeded generator, generated CSVs, data stories
+docs/           GitHub Pages guide (index.html), hosted example (try/), DESIGN.md, images
+notebook/       Step-by-step notebook of the grounded-note loop
+scripts/        capture_sample.py (Live → Sample AI), build_example.py (docs/try)
+```
 
 ## Learn more
 
-- [Snowflake Cortex AISQL (`AI_COMPLETE`)](https://docs.snowflake.com/en/user-guide/snowflake-cortex/aisql)
-- [Cortex Agents](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents)
-- [Cortex Analyst](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst)
+- [Cortex AI functions and `AI_COMPLETE`](https://docs.snowflake.com/en/user-guide/snowflake-cortex/aisql)
+- [Cortex Agents](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents) and [`DATA_AGENT_RUN`](https://docs.snowflake.com/en/sql-reference/functions/data_agent_run-snowflake-cortex)
+- [Cortex Analyst](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst) and [semantic views](https://docs.snowflake.com/en/user-guide/views-semantic/overview)
 - [Streamlit in Snowflake](https://docs.snowflake.com/en/developer-guide/streamlit/about-streamlit)
 
 ## License
 
-Apache 2.0 (see [`LICENSE`](LICENSE)). Illustrative example, as-is, not supported by Snowflake Support. Contains no customer data. Review and test before any production use.
+Apache 2.0 (see [`LICENSE`](LICENSE)). Illustrative example provided as-is, not an official Snowflake product and not supported by Snowflake Support. Synthetic data only; contains no customer data. Fonts: Space Grotesk and JetBrains Mono, SIL Open Font License (licenses in `app/static/fonts/`). Review and test before any production use.

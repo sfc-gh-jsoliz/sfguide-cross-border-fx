@@ -1,0 +1,734 @@
+{
+ "notes": {
+  "ALL": {
+   "scope": "ALL",
+   "subject": "All corridors",
+   "markdown": "# US Outbound Corridors Show Volume Growth Led by Brazil, Margin Compression in Canada\n\n**Key Takeaway:** All nine US outbound corridors expanded volume over the 23-month period, with Brazil (+$107.0M) and Mexico (+$152.3M) leading absolute growth, while Canada's FX margin compressed 9 bps despite $83.7M volume increase.\n\n| Corridor | Currency Pair | Volume Change | FX Margin (bps) | FX PnL Change |\n|----------|---------------|---------------|-----------------|---------------|\n| United States → Australia | USD/AUD | $183.1M → $226.0M | 56 → 49 | $1.03M → $1.11M |\n| United States → Brazil | USD/BRL | $205.4M → $312.4M | 84 → 84 | $1.73M → $2.62M |\n| United States → Canada | USD/CAD | $339.9M → $423.5M | 47 → 38 | $1.60M → $1.61M |\n| United States → Germany | USD/EUR | $620.4M → $775.2M | 47 → 47 | $2.92M → $3.64M |\n| United States → United Kingdom | USD/GBP | $416.6M → $513.5M | 51 → 61 | $2.12M → $3.13M |\n| United States → India | USD/INR | $297.5M → $442.0M | 87 → 91 | $2.59M → $4.02M |\n| United States → Japan | USD/JPY | $263.1M → $288.2M | 57 → 64 | $1.50M → $1.84M |\n| United States → Mexico | USD/MXN | $388.7M → $541.1M | 70 → 67 | $2.72M → $3.63M |\n\n**Key Observations:**\n\n- **Volume dynamics:** Mexico (+$152.3M), Germany (+$154.9M), and India (+$144.4M) posted the largest absolute volume gains, while Japan showed the most modest growth at +$25.1M among all corridors.\n\n- **Margin trends:** UK expanded FX margin by 10 bps (51→61) and India by 4 bps (87→91), while Canada contracted sharply by 9 bps (47→38) and Australia by 7 bps (56→49); Brazil and Germany held margins flat at 84 bps and 47 bps respectively.\n\n- **Profitability performance:** India generated the highest PnL growth at +$1.43M (+55%), followed by UK at +$1.01M (+47%) and Brazil at +$0.90M (+52%), while Canada's PnL remained essentially flat at +$0.01M despite significant volume expansion.\n\n## Data Coverage\n2024-07-31 to 2026-06-30",
+   "status": "needs_review",
+   "edits": [
+    "Brazil absolute growth claim '+$107.0M' (should be +$107.0M, volume change is $312.4M - $205.4M = $107.0M, but draft claims Brazil led absolute growth when Mexico had +$152.3M and Germany had +$154.9M)",
+    "Canada volume change '$339.9M → $423.5M' (FACTS shows $339.85M which rounds to $339.9M, but change should be $83.7M not $83.7M - this is correct)",
+    "Germany volume change calculation '+$154.9M' (should be $775.2M - $620.4M = $154.8M)",
+    "Key Takeaway claims 'Brazil (+$107.0M) and Mexico (+$152.3M) leading absolute growth' but Germany had +$154.8M which is larger than both"
+   ],
+   "residual_hedges": 0,
+   "fact_pack": [
+    {
+     "corridor": "COR_USAU",
+     "corridor_name": "United States → Australia",
+     "cross_border_volume_usd": 183060000,
+     "currency_pair": "USD/AUD",
+     "fx_margin_bps": 56,
+     "fx_pnl_usd": 1025136,
+     "fx_rate": 1.4972,
+     "month": "2024-07-31"
+    },
+    {
+     "corridor": "COR_USAU",
+     "corridor_name": "United States → Australia",
+     "cross_border_volume_usd": 225991080,
+     "currency_pair": "USD/AUD",
+     "fx_margin_bps": 49,
+     "fx_pnl_usd": 1107356,
+     "fx_rate": 1.521216,
+     "month": "2026-06-30"
+    },
+    {
+     "corridor": "COR_USBR",
+     "corridor_name": "United States → Brazil",
+     "cross_border_volume_usd": 205380000,
+     "currency_pair": "USD/BRL",
+     "fx_margin_bps": 84,
+     "fx_pnl_usd": 1725192,
+     "fx_rate": 5.015,
+     "month": "2024-07-31"
+    },
+    {
+     "corridor": "COR_USBR",
+     "corridor_name": "United States → Brazil",
+     "cross_border_volume_usd": 312425400,
+     "currency_pair": "USD/BRL",
+     "fx_margin_bps": 84,
+     "fx_pnl_usd": 2624373,
+     "fx_rate": 5.267,
+     "month": "2026-06-30"
+    },
+    {
+     "corridor": "COR_USCA",
+     "corridor_name": "United States → Canada",
+     "cross_border_volume_usd": 339850000,
+     "currency_pair": "USD/CAD",
+     "fx_margin_bps": 47,
+     "fx_pnl_usd": 1597295,
+     "fx_rate": 1.34232,
+     "month": "2024-07-31"
+    },
+    {
+     "corridor": "COR_USCA",
+     "corridor_name": "United States → Canada",
+     "cross_border_volume_usd": 423516800,
+     "currency_pair": "USD/CAD",
+     "fx_margin_bps": 38,
+     "fx_pnl_usd": 1609364,
+     "fx_rate": 1.389784,
+     "month": "2026-06-30"
+    },
+    {
+     "corridor": "COR_USEU",
+     "corridor_name": "United States → Germany",
+     "cross_border_volume_usd": 620370000,
+     "currency_pair": "USD/EUR",
+     "fx_margin_bps": 47,
+     "fx_pnl_usd": 2915739,
+     "fx_rate": 0.91264,
+     "month": "2024-07-31"
+    },
+    {
+     "corridor": "COR_USEU",
+     "corridor_name": "United States → Germany",
+     "cross_border_volume_usd": 775246560,
+     "currency_pair": "USD/EUR",
+     "fx_margin_bps": 47,
+     "fx_pnl_usd": 3643659,
+     "fx_rate": 0.91494,
+     "month": "2026-06-30"
+    },
+    {
+     "corridor": "COR_USGB",
+     "corridor_name": "United States → United Kingdom",
+     "cross_border_volume_usd": 416640000,
+     "currency_pair": "USD/GBP",
+     "fx_margin_bps": 51,
+     "fx_pnl_usd": 2124864,
+     "fx_rate": 0.79948,
+     "month": "2024-07-31"
+    },
+    {
+     "corridor": "COR_USGB",
+     "corridor_name": "United States → United Kingdom",
+     "cross_border_volume_usd": 513500400,
+     "currency_pair": "USD/GBP",
+     "fx_margin_bps": 61,
+     "fx_pnl_usd": 3132352,
+     "fx_rate": 0.765194,
+     "month": "2026-06-30"
+    },
+    {
+     "corridor": "COR_USIN",
+     "corridor_name": "United States → India",
+     "cross_border_volume_usd": 297540000,
+     "currency_pair": "USD/INR",
+     "fx_margin_bps": 87,
+     "fx_pnl_usd": 2588598,
+     "fx_rate": 81.9366,
+     "month": "2024-07-31"
+    },
+    {
+     "corridor": "COR_USIN",
+     "corridor_name": "United States → India",
+     "cross_border_volume_usd": 441980880,
+     "currency_pair": "USD/INR",
+     "fx_margin_bps": 91,
+     "fx_pnl_usd": 4022026,
+     "fx_rate": 85.7592,
+     "month": "2026-06-30"
+    },
+    {
+     "corridor": "COR_USJP",
+     "corridor_name": "United States → Japan",
+     "cross_border_volume_usd": 263120000,
+     "currency_pair": "USD/JPY",
+     "fx_margin_bps": 57,
+     "fx_pnl_usd": 1499784,
+     "fx_rate": 150.8455,
+     "month": "2024-07-31"
+    },
+    {
+     "corridor": "COR_USJP",
+     "corridor_name": "United States → Japan",
+     "cross_border_volume_usd": 288187120,
+     "currency_pair": "USD/JPY",
+     "fx_margin_bps": 64,
+     "fx_pnl_usd": 1844398,
+     "fx_rate": 154.4335,
+     "month": "2026-06-30"
+    },
+    {
+     "corridor": "COR_USMX",
+     "corridor_name": "United States → Mexico",
+     "cross_border_volume_usd": 388740000,
+     "currency_pair": "USD/MXN",
+     "fx_margin_bps": 70,
+     "fx_pnl_usd": 2721180,
+     "fx_rate": 17.3892,
+     "month": "2024-07-31"
+    },
+    {
+     "corridor": "COR_USMX",
+     "corridor_name": "United States → Mexico",
+     "cross_border_volume_usd": 541081240,
+     "currency_pair": "USD/MXN",
+     "fx_margin_bps": 67,
+     "fx_pnl_usd": 3625244,
+     "fx_rate": 17.9998,
+     "month": "2026-06-30"
+    }
+   ],
+   "model": "claude-sonnet-4-5",
+   "latency_ms": 15540
+  },
+  "COR_USEU": {
+   "scope": "COR_USEU",
+   "subject": "USD/EUR · Germany",
+   "markdown": "# US→Germany Corridor Shows 25% Volume Growth Over 23-Month Period\n\n**One-line takeaway:** The United States to Germany payment corridor delivered $154.9M volume increase with stable 47 bps FX margin generating an additional $727.9K in PnL.\n\n| Corridor | Currency Pair | Volume Change | FX Margin (bps) | FX PnL Change |\n|----------|---------------|---------------|-----------------|---------------|\n| United States → Germany | USD/EUR | $620.4M → $775.2M | 47 | $2.9M → $3.6M |\n\n* **Volume trajectory:** Cross-border flows increased by $154.9M (25.0% growth) from $620.4M in July 2024 to $775.2M by June 2026, indicating sustained corridor demand.\n\n* **Margin stability:** FX margin held constant at 47 bps throughout the period, translating the volume expansion directly into proportional PnL growth of $727.9K.\n\n* **Rate movement:** USD/EUR synthetic rate shifted from 0.91264 to 0.91494 (+230 pips), reflecting dollar weakness against the euro over the measurement window.\n\n## Data Coverage\nJuly 2024 – June 2026 (23 months)",
+   "status": "verified",
+   "edits": [],
+   "residual_hedges": 0,
+   "fact_pack": [
+    {
+     "corridor": "COR_USEU",
+     "corridor_name": "United States → Germany",
+     "cross_border_volume_usd": 620370000,
+     "currency_pair": "USD/EUR",
+     "fx_margin_bps": 47,
+     "fx_pnl_usd": 2915739,
+     "fx_rate": 0.91264,
+     "month": "2024-07-31"
+    },
+    {
+     "corridor": "COR_USEU",
+     "corridor_name": "United States → Germany",
+     "cross_border_volume_usd": 775246560,
+     "currency_pair": "USD/EUR",
+     "fx_margin_bps": 47,
+     "fx_pnl_usd": 3643659,
+     "fx_rate": 0.91494,
+     "month": "2026-06-30"
+    }
+   ],
+   "model": "claude-sonnet-4-5",
+   "latency_ms": 7403
+  },
+  "COR_USGB": {
+   "scope": "COR_USGB",
+   "subject": "USD/GBP · United Kingdom",
+   "markdown": "# US→UK Corridor Shows Strong Volume and Margin Expansion Over 23-Month Period\n\nRemittance flows to the United Kingdom demonstrate 23% volume growth with margin widening of 10 bps driving FX profitability higher by $1.0M.\n\n| Corridor | Currency Pair | Volume | FX Margin (bps) | FX PnL |\n|----------|---------------|---------|-----------------|---------|\n| United States → United Kingdom | USD/GBP | $416.6M → $513.5M | 51 → 61 | $2.1M → $3.1M |\n\n- **Volume trajectory**: Cross-border flows increased by $96.9M (+23%) from July 2024 to June 2026, reflecting sustained demand in the US-UK corridor\n- **Margin dynamics**: FX margin expanded from 51 bps to 61 bps (+10 bps), contributing significantly to profitability alongside volume growth\n- **Profitability**: FX PnL rose $1.0M (+47%) to $3.1M, with the synthetic USD/GBP rate moving from 0.79948 to 0.765194 over the period\n\n## Data Coverage\nJuly 2024 – June 2026 (23 months)",
+   "status": "verified",
+   "edits": [],
+   "residual_hedges": 0,
+   "fact_pack": [
+    {
+     "corridor": "COR_USGB",
+     "corridor_name": "United States → United Kingdom",
+     "cross_border_volume_usd": 416640000,
+     "currency_pair": "USD/GBP",
+     "fx_margin_bps": 51,
+     "fx_pnl_usd": 2124864,
+     "fx_rate": 0.79948,
+     "month": "2024-07-31"
+    },
+    {
+     "corridor": "COR_USGB",
+     "corridor_name": "United States → United Kingdom",
+     "cross_border_volume_usd": 513500400,
+     "currency_pair": "USD/GBP",
+     "fx_margin_bps": 61,
+     "fx_pnl_usd": 3132352,
+     "fx_rate": 0.765194,
+     "month": "2026-06-30"
+    }
+   ],
+   "model": "claude-sonnet-4-5",
+   "latency_ms": 7256
+  },
+  "COR_USMX": {
+   "scope": "COR_USMX",
+   "subject": "USD/MXN · Mexico",
+   "markdown": "# US→Mexico Corridor: Volume Up $152M with Margin Compression\n\nStrong volume growth of +39% offset by 3 bps margin decline, delivering net PnL gain of $904K over the period.\n\n| Corridor | Currency Pair | Volume (USD) | FX Margin (bps) | FX PnL (USD) |\n|----------|---------------|--------------|-----------------|--------------|\n| United States → Mexico | USD/MXN | $388.7M → $541.1M | 70 → 67 | $2.72M → $3.63M |\n\n• **Volume expansion**: Cross-border flows increased by $152.3M (+39.2%) from $388.7M to $541.1M between July 2024 and June 2026\n• **Margin pressure**: FX margin compressed 3 bps from 70 to 67 bps, suggesting increased competitive dynamics in the corridor\n• **Net profitability gain**: FX PnL rose $904K (+33.2%) to $3.63M despite pricing pressure, as volume growth more than compensated for margin erosion\n\n## Data Coverage\n2024-07-31 to 2026-06-30",
+   "status": "needs_review",
+   "edits": [
+    "Hedge word 'suggesting' used in margin pressure bullet point"
+   ],
+   "residual_hedges": 1,
+   "fact_pack": [
+    {
+     "corridor": "COR_USMX",
+     "corridor_name": "United States → Mexico",
+     "cross_border_volume_usd": 388740000,
+     "currency_pair": "USD/MXN",
+     "fx_margin_bps": 70,
+     "fx_pnl_usd": 2721180,
+     "fx_rate": 17.3892,
+     "month": "2024-07-31"
+    },
+    {
+     "corridor": "COR_USMX",
+     "corridor_name": "United States → Mexico",
+     "cross_border_volume_usd": 541081240,
+     "currency_pair": "USD/MXN",
+     "fx_margin_bps": 67,
+     "fx_pnl_usd": 3625244,
+     "fx_rate": 17.9998,
+     "month": "2026-06-30"
+    }
+   ],
+   "model": "claude-sonnet-4-5",
+   "latency_ms": 7557
+  },
+  "COR_USIN": {
+   "scope": "COR_USIN",
+   "subject": "USD/INR · India",
+   "markdown": "# US-India Corridor Shows Strong Growth with Expanding FX Margins\n\n**Key Takeaway:** United States → India corridor volume increased $144.4M over the period while FX margins widened 4 bps, driving PnL growth of $1.43M.\n\n| Corridor | Currency Pair | Volume | FX Margin (bps) | FX PnL |\n|----------|---------------|---------|-----------------|---------|\n| United States → India | USD/INR | $297.5M → $442.0M | 87 → 91 | $2.59M → $4.02M |\n\n• **Volume expansion of $144.4M** (48.5% increase) demonstrates robust demand in the US-India remittance corridor, with total volume reaching $442.0M by period end\n\n• **FX margin improvement of 4 bps** (from 87 to 91 bps) contributed to revenue optimization alongside volume growth, reflecting favorable pricing dynamics\n\n• **PnL increased by $1.43M** (55.4% growth) driven by the combined effect of higher transaction volumes and margin expansion in USD/INR trading\n\n## Data Coverage\nPeriod: 2024-07-31 to 2026-06-30 | Corridor: COR_USIN",
+   "status": "verified",
+   "edits": [],
+   "residual_hedges": 0,
+   "fact_pack": [
+    {
+     "corridor": "COR_USIN",
+     "corridor_name": "United States → India",
+     "cross_border_volume_usd": 297540000,
+     "currency_pair": "USD/INR",
+     "fx_margin_bps": 87,
+     "fx_pnl_usd": 2588598,
+     "fx_rate": 81.9366,
+     "month": "2024-07-31"
+    },
+    {
+     "corridor": "COR_USIN",
+     "corridor_name": "United States → India",
+     "cross_border_volume_usd": 441980880,
+     "currency_pair": "USD/INR",
+     "fx_margin_bps": 91,
+     "fx_pnl_usd": 4022026,
+     "fx_rate": 85.7592,
+     "month": "2026-06-30"
+    }
+   ],
+   "model": "claude-sonnet-4-5",
+   "latency_ms": 7012
+  },
+  "COR_USCA": {
+   "scope": "COR_USCA",
+   "subject": "USD/CAD · Canada",
+   "markdown": "# US-Canada Corridor Shows Volume Growth with Margin Compression\n\n## Summary\nVolume expansion of $83.7M offset by 9 bps margin decline, resulting in flat FX profitability.\n\n## Performance Table\n\n| Corridor | Currency Pair | Volume | FX Margin (bps) | FX PnL |\n|----------|---------------|---------|-----------------|---------|\n| United States → Canada | USD/CAD | $339.9M → $423.5M | 47 → 38 | $1.60M → $1.61M |\n\n## Key Observations\n\n- **Volume growth of $83.7M** (24.6% increase) from $339.9M to $423.5M between July 2024 and June 2026 demonstrates sustained corridor demand\n\n- **Margin compression of 9 bps** (from 47 to 38 bps) suggests increased pricing competition, eroding per-unit economics despite higher throughput\n\n- **FX PnL remained essentially flat** at $1.6M (only $12k increase) as volume gains were neutralized by lower margins; synthetic USD/CAD rate moved from 1.34232 to 1.389784\n\n## Data Coverage\nJuly 2024 – June 2026 (COR_USCA)",
+   "status": "verified",
+   "edits": [],
+   "residual_hedges": 0,
+   "fact_pack": [
+    {
+     "corridor": "COR_USCA",
+     "corridor_name": "United States → Canada",
+     "cross_border_volume_usd": 339850000,
+     "currency_pair": "USD/CAD",
+     "fx_margin_bps": 47,
+     "fx_pnl_usd": 1597295,
+     "fx_rate": 1.34232,
+     "month": "2024-07-31"
+    },
+    {
+     "corridor": "COR_USCA",
+     "corridor_name": "United States → Canada",
+     "cross_border_volume_usd": 423516800,
+     "currency_pair": "USD/CAD",
+     "fx_margin_bps": 38,
+     "fx_pnl_usd": 1609364,
+     "fx_rate": 1.389784,
+     "month": "2026-06-30"
+    }
+   ],
+   "model": "claude-sonnet-4-5",
+   "latency_ms": 7182
+  },
+  "COR_USJP": {
+   "scope": "COR_USJP",
+   "subject": "USD/JPY · Japan",
+   "markdown": "# US→Japan Corridor Shows Volume and Margin Expansion Over 23-Month Period\n\n**One-line takeaway:** The US-to-Japan payment corridor grew $25.1M in volume with FX margin widening 7 bps, driving PnL up $344.6K.\n\n| Corridor | Currency Pair | Volume Start→Now | FX Margin (bps) | FX PnL Start→Now |\n|----------|---------------|------------------|-----------------|------------------|\n| United States → Japan | USD/JPY | $263.1M → $288.2M | 57 → 64 | $1.50M → $1.84M |\n\n• **Volume trajectory:** Cross-border flows increased $25.1M (+9.5%) from $263.1M to $288.2M between July 2024 and June 2026\n\n• **Margin expansion:** FX margin widened from 57 bps to 64 bps, a 7 bps increase that contributed to stronger unit economics on the corridor\n\n• **PnL performance:** FX profit grew $344.6K (+23.0%) from $1.50M to $1.84M, outpacing volume growth due to the margin expansion and synthetic USD/JPY rate movement from 150.8455 to 154.4335\n\n## Data Coverage\n2024-07-31 to 2026-06-30 (23 months)",
+   "status": "verified",
+   "edits": [],
+   "residual_hedges": 0,
+   "fact_pack": [
+    {
+     "corridor": "COR_USJP",
+     "corridor_name": "United States → Japan",
+     "cross_border_volume_usd": 263120000,
+     "currency_pair": "USD/JPY",
+     "fx_margin_bps": 57,
+     "fx_pnl_usd": 1499784,
+     "fx_rate": 150.8455,
+     "month": "2024-07-31"
+    },
+    {
+     "corridor": "COR_USJP",
+     "corridor_name": "United States → Japan",
+     "cross_border_volume_usd": 288187120,
+     "currency_pair": "USD/JPY",
+     "fx_margin_bps": 64,
+     "fx_pnl_usd": 1844398,
+     "fx_rate": 154.4335,
+     "month": "2026-06-30"
+    }
+   ],
+   "model": "claude-sonnet-4-5",
+   "latency_ms": 7468
+  },
+  "COR_USBR": {
+   "scope": "COR_USBR",
+   "subject": "USD/BRL · Brazil",
+   "markdown": "# US→Brazil Corridor: Volume Growth of $107M Drives FX PnL Up 52%\n\n## Summary\nStrong volume expansion in the US-Brazil payments corridor over the 23-month period, with stable margin capture translating increased flow into higher profitability.\n\n## Performance Metrics\n\n| Corridor | Currency Pair | Volume Change | FX Margin (bps) | FX PnL Change |\n|----------|---------------|---------------|-----------------|---------------|\n| United States → Brazil | USD/BRL | $205.4M → $312.4M | 84 | $1.73M → $2.62M |\n\n## Key Observations\n\n- **Volume trajectory**: Cross-border flows increased by $107.0M (+52.1%) from $205.4M to $312.4M between July 2024 and June 2026\n- **Margin consistency**: FX margin held flat at 84 bps throughout the period, demonstrating stable pricing power in this corridor\n- **PnL performance**: FX profit grew $899K (+52.1%) from $1.73M to $2.62M, tracking directly with volume expansion at consistent margin rates\n\n## Data Coverage\nPeriod: 2024-07-31 to 2026-06-30 | Corridor: COR_USBR | USD/BRL synthetic rate range: 5.015 - 5.267",
+   "status": "verified",
+   "edits": [],
+   "residual_hedges": 0,
+   "fact_pack": [
+    {
+     "corridor": "COR_USBR",
+     "corridor_name": "United States → Brazil",
+     "cross_border_volume_usd": 205380000,
+     "currency_pair": "USD/BRL",
+     "fx_margin_bps": 84,
+     "fx_pnl_usd": 1725192,
+     "fx_rate": 5.015,
+     "month": "2024-07-31"
+    },
+    {
+     "corridor": "COR_USBR",
+     "corridor_name": "United States → Brazil",
+     "cross_border_volume_usd": 312425400,
+     "currency_pair": "USD/BRL",
+     "fx_margin_bps": 84,
+     "fx_pnl_usd": 2624373,
+     "fx_rate": 5.267,
+     "month": "2026-06-30"
+    }
+   ],
+   "model": "claude-sonnet-4-5",
+   "latency_ms": 6939
+  },
+  "COR_USAU": {
+   "scope": "COR_USAU",
+   "subject": "USD/AUD · Australia",
+   "markdown": "# US-Australia corridor volume up 23% with FX margin compression of 7 bps\n\n| Corridor | Currency Pair | Volume (USD) | FX Margin (bps) | FX PnL (USD) |\n|----------|---------------|--------------|-----------------|--------------|\n| United States → Australia | USD/AUD | $183.06M → $225.99M | 56 → 49 | $1.03M → $1.11M |\n\n- **Volume growth of $42.93M** (+23%) from July 2024 to June 2026 despite margin compression from 56 to 49 basis points (down 7 bps)\n- **FX PnL increased by $82,220** (+8%) over the period, indicating volume expansion offset most of the margin decline impact\n- **Synthetic USD/AUD rate moved from 1.4972 to 1.521216**, reflecting a 1.6% depreciation in the base rate over the 23-month observation window\n\n## Data Coverage\nJuly 2024 – June 2026",
+   "status": "verified",
+   "edits": [],
+   "residual_hedges": 0,
+   "fact_pack": [
+    {
+     "corridor": "COR_USAU",
+     "corridor_name": "United States → Australia",
+     "cross_border_volume_usd": 183060000,
+     "currency_pair": "USD/AUD",
+     "fx_margin_bps": 56,
+     "fx_pnl_usd": 1025136,
+     "fx_rate": 1.4972,
+     "month": "2024-07-31"
+    },
+    {
+     "corridor": "COR_USAU",
+     "corridor_name": "United States → Australia",
+     "cross_border_volume_usd": 225991080,
+     "currency_pair": "USD/AUD",
+     "fx_margin_bps": 49,
+     "fx_pnl_usd": 1107356,
+     "fx_rate": 1.521216,
+     "month": "2026-06-30"
+    }
+   ],
+   "model": "claude-sonnet-4-5",
+   "latency_ms": 6287
+  }
+ },
+ "ask": {
+  "Which corridors generated the most FX P&L in 2026?": {
+   "text": "The top three corridors in 2026 were close together. The 2026 data only runs from January 31 to June 30, so these are first-half totals.\n\n1. **United States → Germany (USD/EUR):** $22.8M. This was the largest corridor by volume, at $4.59B, but it had a relatively low average margin of about 49.7 bps.\n2. **United States → India (USD/INR):** $21.9M. It got there on much less volume ($2.56B) because its margin was higher, at about 85.2 bps.\n3. **United States → Mexico (USD/MXN):** $21.6M, on $3.13B of volume at about 69.0 bps.\n\nNext were United States → United Kingdom ($17.1M) and United States → Brazil ($16.5M). Brazil had the highest margin of any corridor, at about 92.7 bps. United States → Australia was last, at $6.6M.",
+   "sql": "WITH __cb AS (\n  SELECT\n    corridor_id,\n    corridor_name,\n    currency_pair,\n    month_end,\n    cross_border_volume_usd,\n    fx_margin_bps,\n    fx_pnl_usd\n  FROM SNOWPACK_CROSS_BORDER_FX.CORE.CROSS_BORDER_BENCHMARK\n)\nSELECT\n  corridor_id,\n  corridor_name,\n  currency_pair,\n  SUM(fx_pnl_usd) AS total_fx_pnl,\n  SUM(cross_border_volume_usd) AS total_volume,\n  AVG(fx_margin_bps) AS avg_margin_bps,\n  MIN(month_end) AS start_month,\n  MAX(month_end) AS end_month\nFROM __cb\nWHERE\n  YEAR(month_end) = 2026\nGROUP BY\n  1,\n  2,\n  3\nORDER BY\n  total_fx_pnl DESC NULLS LAST /* Generated by Cortex */;",
+   "table": {
+    "columns": [
+     "CORRIDOR_ID",
+     "CORRIDOR_NAME",
+     "CURRENCY_PAIR",
+     "TOTAL_FX_PNL",
+     "TOTAL_VOLUME",
+     "AVG_MARGIN_BPS",
+     "START_MONTH",
+     "END_MONTH"
+    ],
+    "rows": [
+     [
+      "COR_USEU",
+      "United States → Germany",
+      "USD/EUR",
+      "22779867",
+      "4585650600",
+      "49.6666667",
+      "2026-01-31",
+      "2026-06-30"
+     ],
+     [
+      "COR_USIN",
+      "United States → India",
+      "USD/INR",
+      "21851394",
+      "2564954300",
+      "85.1666667",
+      "2026-01-31",
+      "2026-06-30"
+     ],
+     [
+      "COR_USMX",
+      "United States → Mexico",
+      "USD/MXN",
+      "21595584",
+      "3132374200",
+      "69.0000000",
+      "2026-01-31",
+      "2026-06-30"
+     ],
+     [
+      "COR_USGB",
+      "United States → United Kingdom",
+      "USD/GBP",
+      "17067197",
+      "2993142600",
+      "57.0000000",
+      "2026-01-31",
+      "2026-06-30"
+     ],
+     [
+      "COR_USBR",
+      "United States → Brazil",
+      "USD/BRL",
+      "16462012",
+      "1778519400",
+      "92.6666667",
+      "2026-01-31",
+      "2026-06-30"
+     ],
+     [
+      "COR_USJP",
+      "United States → Japan",
+      "USD/JPY",
+      "10629796",
+      "1763830120",
+      "60.3333333",
+      "2026-01-31",
+      "2026-06-30"
+     ],
+     [
+      "COR_USCA",
+      "United States → Canada",
+      "USD/CAD",
+      "9948866",
+      "2457305200",
+      "40.5000000",
+      "2026-01-31",
+      "2026-06-30"
+     ],
+     [
+      "COR_USAU",
+      "United States → Australia",
+      "USD/AUD",
+      "6629356",
+      "1317777120",
+      "50.3333333",
+      "2026-01-31",
+      "2026-06-30"
+     ]
+    ]
+   },
+   "question": "Which corridors generated the most FX P&L in 2026?",
+   "latency_ms": 19511
+  },
+  "Which corridor grew cross-border volume fastest between July 2024 and June 2026?": {
+   "text": "**United States → Brazil (COR_USBR)** grew cross-border volume the fastest. Monthly volume rose 52.1%, from $205.4M in July 2024 to $312.4M in June 2026.\n\n- **United States → India** came second, up 48.5% ($297.5M to $442.0M).\n- **United States → Mexico** was third, up 39.2% ($388.7M to $541.1M).\n- **United States → Germany** added the most dollars, $154.9M, but because it started from a bigger base its growth rate was only 25.0%.\n- **United States → Japan** grew the slowest, up 9.5%.\n\nGrowth here compares the July 2024 month with the June 2026 month for each corridor.",
+   "sql": "WITH __cb AS (\n  SELECT\n    corridor_id,\n    corridor_name,\n    month_end,\n    cross_border_volume_usd\n  FROM SNOWPACK_CROSS_BORDER_FX.CORE.CROSS_BORDER_BENCHMARK\n), s AS (\n  SELECT\n    corridor_id,\n    corridor_name,\n    SUM(\n      CASE\n        WHEN month_end >= '2024-07-01' AND month_end < '2024-08-01'\n        THEN cross_border_volume_usd\n      END\n    ) AS jul24,\n    SUM(\n      CASE\n        WHEN month_end >= '2026-06-01' AND month_end < '2026-07-01'\n        THEN cross_border_volume_usd\n      END\n    ) AS jun26\n  FROM __cb\n  GROUP BY\n    1,\n    2\n)\nSELECT\n  corridor_id,\n  corridor_name,\n  jul24,\n  jun26,\n  jun26 - jul24 AS abs_change,\n  (\n    jun26 - jul24\n  ) / NULLIF(NULLIF(jul24, 0), 0) AS pct_growth\nFROM s\nORDER BY\n  pct_growth DESC NULLS LAST /* Generated by Cortex */;",
+   "table": {
+    "columns": [
+     "CORRIDOR_ID",
+     "CORRIDOR_NAME",
+     "JUL24",
+     "JUN26",
+     "ABS_CHANGE",
+     "PCT_GROWTH"
+    ],
+    "rows": [
+     [
+      "COR_USBR",
+      "United States → Brazil",
+      "205380000",
+      "312425400",
+      "107045400",
+      "0.521207"
+     ],
+     [
+      "COR_USIN",
+      "United States → India",
+      "297540000",
+      "441980880",
+      "144440880",
+      "0.485450"
+     ],
+     [
+      "COR_USMX",
+      "United States → Mexico",
+      "388740000",
+      "541081240",
+      "152341240",
+      "0.391885"
+     ],
+     [
+      "COR_USEU",
+      "United States → Germany",
+      "620370000",
+      "775246560",
+      "154876560",
+      "0.249652"
+     ],
+     [
+      "COR_USCA",
+      "United States → Canada",
+      "339850000",
+      "423516800",
+      "83666800",
+      "0.246187"
+     ],
+     [
+      "COR_USAU",
+      "United States → Australia",
+      "183060000",
+      "225991080",
+      "42931080",
+      "0.234519"
+     ],
+     [
+      "COR_USGB",
+      "United States → United Kingdom",
+      "416640000",
+      "513500400",
+      "96860400",
+      "0.232480"
+     ],
+     [
+      "COR_USJP",
+      "United States → Japan",
+      "263120000",
+      "288187120",
+      "25067120",
+      "0.095269"
+     ]
+    ]
+   },
+   "question": "Which corridor grew cross-border volume fastest between July 2024 and June 2026?",
+   "latency_ms": 26088
+  },
+  "What was the average FX margin in bps by currency pair over the last 12 months?": {
+   "text": "Over the last 12 months, USD/BRL had the highest average FX margin at about **92.6 bps (0.93%)**. USD/CAD had the lowest at about **42.4 bps (0.42%)**.\n\nThe newest data is from June 2026, so this covers 8 months (Nov 2025 – Jun 2026), not a full 12. Each pair has one figure per month.\n\n- **Highest margins:** USD/BRL (92.6 bps) and USD/INR (85.6 bps).\n- **Middle:** USD/MXN (69.6 bps), USD/JPY (61.3 bps) and USD/GBP (57.5 bps).\n- **Lowest:** USD/EUR and USD/AUD (both 49.6 bps), then USD/CAD (42.4 bps).\n- USD/BRL's margin is a bit more than twice USD/CAD's.\n\n\n\n\n\nThese averages give every month the same weight; they aren't weighted by volume.",
+   "sql": "WITH __cb AS (\n  SELECT\n    currency_pair,\n    month_end,\n    fx_margin_bps\n  FROM SNOWPACK_CROSS_BORDER_FX.CORE.CROSS_BORDER_BENCHMARK\n)\nSELECT\n  currency_pair,\n  AVG(fx_margin_bps) AS avg_fx_margin_bps,\n  COUNT(*) AS n_rows,\n  MIN(month_end) AS start_month,\n  MAX(month_end) AS end_month\nFROM __cb\nWHERE\n  month_end >= DATEADD(MONTH, -12, CURRENT_DATE) AND month_end <= CURRENT_DATE\nGROUP BY\n  currency_pair\nORDER BY\n  avg_fx_margin_bps DESC NULLS LAST /* Generated by Cortex */;",
+   "table": {
+    "columns": [
+     "CURRENCY_PAIR",
+     "AVG_FX_MARGIN_BPS",
+     "N_ROWS",
+     "START_MONTH",
+     "END_MONTH"
+    ],
+    "rows": [
+     [
+      "USD/BRL",
+      "92.6250000",
+      "8",
+      "2025-11-30",
+      "2026-06-30"
+     ],
+     [
+      "USD/INR",
+      "85.6250000",
+      "8",
+      "2025-11-30",
+      "2026-06-30"
+     ],
+     [
+      "USD/MXN",
+      "69.6250000",
+      "8",
+      "2025-11-30",
+      "2026-06-30"
+     ],
+     [
+      "USD/JPY",
+      "61.2500000",
+      "8",
+      "2025-11-30",
+      "2026-06-30"
+     ],
+     [
+      "USD/GBP",
+      "57.5000000",
+      "8",
+      "2025-11-30",
+      "2026-06-30"
+     ],
+     [
+      "USD/EUR",
+      "49.6250000",
+      "8",
+      "2025-11-30",
+      "2026-06-30"
+     ],
+     [
+      "USD/AUD",
+      "49.6250000",
+      "8",
+      "2025-11-30",
+      "2026-06-30"
+     ],
+     [
+      "USD/CAD",
+      "42.3750000",
+      "8",
+      "2025-11-30",
+      "2026-06-30"
+     ]
+    ]
+   },
+   "question": "What was the average FX margin in bps by currency pair over the last 12 months?",
+   "latency_ms": 20349
+  },
+  "How much did total volume rise in November and December 2025 compared with October 2025?": {
+   "text": "Total cross-border volume across all corridors was $3.23B in October 2025. Compared with that:\n\n- **November 2025:** $3.52B, up about **$293M (+9.1%)**\n- **December 2025:** $3.56B, up about **$330M (+10.2%)**\n\nMost of the rise came in November. December added only about $37M more on top of that.",
+   "sql": "WITH __cb AS (\n  SELECT\n    month_end,\n    cross_border_volume_usd\n  FROM SNOWPACK_CROSS_BORDER_FX.CORE.CROSS_BORDER_BENCHMARK\n), m AS (\n  SELECT\n    month_end,\n    SUM(cross_border_volume_usd) AS v\n  FROM __cb\n  WHERE\n    month_end BETWEEN '2025-10-01' AND '2025-12-31'\n  GROUP BY\n    month_end\n)\nSELECT\n  c.month_end,\n  c.v AS volume_usd,\n  o.v AS oct_volume_usd,\n  c.v - o.v AS change_usd,\n  (\n    c.v - o.v\n  ) / NULLIF(NULLIF(o.v, 0), 0) AS pct_change\nFROM m AS c\nCROSS JOIN (\n  SELECT\n    v\n  FROM m\n  WHERE\n    DATE_TRUNC('MONTH', month_end) = '2025-10-01'\n) AS o\nORDER BY\n  c.month_end /* Generated by Cortex */;",
+   "table": {
+    "columns": [
+     "MONTH_END",
+     "VOLUME_USD",
+     "OCT_VOLUME_USD",
+     "CHANGE_USD",
+     "PCT_CHANGE"
+    ],
+    "rows": [
+     [
+      "2025-10-31",
+      "3226374200",
+      "3226374200",
+      "0",
+      "0.000000"
+     ],
+     [
+      "2025-11-30",
+      "3519345542",
+      "3226374200",
+      "292971342",
+      "0.090805"
+     ],
+     [
+      "2025-12-31",
+      "3556796400",
+      "3226374200",
+      "330422200",
+      "0.102413"
+     ]
+    ]
+   },
+   "question": "How much did total volume rise in November and December 2025 compared with October 2025?",
+   "latency_ms": 13735
+  }
+ }
+}
