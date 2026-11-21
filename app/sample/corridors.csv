@@ -1,0 +1,9 @@
+corridor_id,origin_country,dest_country,currency_pair,base_fx_rate,corridor_name
+COR_USGB,US,GB,USD/GBP,0.79,United States → United Kingdom
+COR_USEU,US,DE,USD/EUR,0.92,United States → Germany
+COR_USMX,US,MX,USD/MXN,17.2,United States → Mexico
+COR_USIN,US,IN,USD/INR,83.1,United States → India
+COR_USCA,US,CA,USD/CAD,1.36,United States → Canada
+COR_USJP,US,JP,USD/JPY,149.5,United States → Japan
+COR_USBR,US,BR,USD/BRL,5.0,United States → Brazil
+COR_USAU,US,AU,USD/AUD,1.52,United States → Australia
