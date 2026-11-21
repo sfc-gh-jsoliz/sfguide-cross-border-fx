@@ -292,7 +292,7 @@
         continue;
       }
       if (/^#{1,3} /.test(l)) { var n = l.match(/^#+/)[0].length; out += "<h" + n + ">" + inline(l.replace(/^#+ /, "")) + "</h" + n + ">"; }
-      else if (/^\s*[-*] /.test(l)) { var li = []; while (i < lines_.length && /^\s*[-*] /.test(lines_[i])) { li.push("<li>" + inline(lines_[i].replace(/^\s*[-*] /, "")) + "</li>"); i++; } out += "<ul>" + li.join("") + "</ul>"; continue; }
+      else if (/^\s*[-*•] /.test(l)) { var li = []; while (i < lines_.length && /^\s*[-*•] /.test(lines_[i])) { li.push("<li>" + inline(lines_[i].replace(/^\s*[-*•] /, "")) + "</li>"); i++; } out += "<ul>" + li.join("") + "</ul>"; continue; }
       else if (/^\s*\d+\. /.test(l)) { var ol = []; while (i < lines_.length && /^\s*\d+\. /.test(lines_[i])) { ol.push("<li>" + inline(lines_[i].replace(/^\s*\d+\. /, "")) + "</li>"); i++; } out += "<ol>" + ol.join("") + "</ol>"; continue; }
       else if (/^---+$/.test(l.trim())) out += "<hr>";
       else if (l.trim()) out += "<p>" + inline(l) + "</p>";

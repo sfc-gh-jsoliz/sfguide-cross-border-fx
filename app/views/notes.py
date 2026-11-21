@@ -40,9 +40,9 @@ def show_note(note, mode, animate=False):
     box = st.container(key="note_body")
     with box:
         if animate:
-            st.write_stream(stream(note["markdown"]))
+            st.write_stream(stream(brand.md_safe(note["markdown"])))
         else:
-            st.markdown(note["markdown"])
+            st.markdown(brand.md_safe(note["markdown"]))
     st.markdown(sources(note), unsafe_allow_html=True)
 
 

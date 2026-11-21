@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cross-Border &amp; FX: see which corridors earn their volume · Snowflake example</title>
+<meta name="description" content="A Snowflake example for payments FX and treasury desks: corridor volume, FX margin and FX P&L in one app, with AI desk notes that are fact-checked before anyone reads them. Synthetic data.">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/tokens.css">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="hero">
+  <nav class="bar wrap" aria-label="Site">
+    <a class="brand" href="./"><img src="assets/logo.svg" width="30" height="30" alt=""><span>Ferrovane Corridor Desk</span></a>
+    <span class="navlinks"><a href="#how">How it works</a><a href="#run">Run it</a><a href="https://github.com/sfc-gh-jsoliz/sfguide-cross-border-fx">Repository</a></span>
+  </nav>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">Cross-border payments · FX &amp; treasury · Snowflake example</p>
+      <h1>Know which corridors earn their volume, every month-end.</h1>
+      <p class="lede">An FX desk settles billions across currency corridors, but volume, margin in basis points and FX P&amp;L live in different reports, and the month-end write-up is assembled by hand. This example puts the whole book in one app on Snowflake and drafts the desk note with Cortex AI, then has a second model pass check every number against the source before anyone reads it.</p>
+      <div class="cta">
+        <a class="btn primary" href="try/">Try it, no account needed</a>
+        <a class="btn ghost" href="https://github.com/sfc-gh-jsoliz/sfguide-cross-border-fx">View the code</a>
+      </div>
+      <ul class="facts">
+        <li><b>~15 s</b> setup on an XSMALL warehouse</li>
+        <li><b>~0.02</b> warehouse credit to set up</li>
+        <li><b>Enterprise</b> edition, Cortex AI region</li>
+      </ul>
+    </div>
+    <figure class="map" aria-label="Corridor map: eight USD corridors from one origin">
+      <svg viewBox="0 0 520 360" role="img" aria-labelledby="mapt">
+        <title id="mapt">Eight settlement corridors drawn as arcs from a United States origin to Germany, the United Kingdom, Mexico, India, Canada, Japan, Brazil and Australia</title>
+        <defs><radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#F2B544" stop-opacity=".55"/><stop offset="1" stop-color="#F2B544" stop-opacity="0"/></radialGradient></defs>
+        <g class="grid"><path d="M20 90H500M20 180H500M20 270H500M110 20V340M230 20V340M350 20V340M470 20V340"/></g>
+        <g class="arcs">
+          <path d="M120 170 Q 210 60 300 120"/><path d="M120 170 Q 200 40 285 105"/><path d="M120 170 Q 120 220 140 235"/>
+          <path d="M120 170 Q 270 90 395 190"/><path d="M120 170 Q 125 120 140 120"/><path d="M120 170 Q 300 40 450 150"/>
+          <path d="M120 170 Q 160 260 200 285"/><path d="M120 170 Q 320 190 465 295"/>
+        </g>
+        <circle cx="120" cy="170" r="26" fill="url(#glow)"/><circle cx="120" cy="170" r="6" class="origin"/>
+        <g class="nodes">
+          <circle cx="300" cy="120" r="4"/><circle cx="285" cy="105" r="4"/><circle cx="140" cy="235" r="4"/><circle cx="395" cy="190" r="4"/>
+          <circle cx="140" cy="120" r="4"/><circle cx="450" cy="150" r="4"/><circle cx="200" cy="285" r="4"/><circle cx="465" cy="295" r="4"/>
+        </g>
+        <g class="labels">
+          <text x="308" y="124">EUR</text><text x="270" y="96">GBP</text><text x="150" y="245">MXN</text><text x="403" y="194">INR</text>
+          <text x="148" y="114">CAD</text><text x="458" y="154">JPY</text><text x="208" y="296">BRL</text><text x="430" y="315">AUD</text><text x="84" y="200">USD</text>
+        </g>
+      </svg>
+    </figure>
+  </div>
+</header>
+
+<main id="main">
+  <section class="wrap story" aria-labelledby="scen">
+    <h2 id="scen">The scenario</h2>
+    <p>Ferrovane is a fictional payments processor. Its FX desk settles cross-border payments for merchants across eight USD corridors, from Germany and the United Kingdom to Brazil and India. The head of FX wants to know, each month-end, which lanes grow, which earn the most per dollar, and where margin is slipping, in a note the CFO can trust. On this synthetic data set, the app surfaces the stories planted in the book: emerging-market lanes growing fastest, USD/EUR earning the most in total at under 50 bps, a November–December volume lift, and a margin squeeze on USD/MXN.</p>
+  </section>
+
+  <section class="wrap shots" id="how" aria-labelledby="howh">
+    <h2 id="howh">What you get</h2>
+    <figure class="shot lead">
+      <img src="images/01-desk.png" width="1440" height="900" loading="lazy" alt="Corridor desk: four KPI tiles for June 2026 (volume $3.52B, FX P&amp;L $21.6M, blended margin 61.4 bps, 1.41M transactions) with trends, a stacked monthly volume chart by currency pair and a ranked list of 12-month FX P&amp;L by corridor">
+      <figcaption><b>Desk.</b> Month-end KPIs with year-on-year trends, stacked volume by corridor and a ranked FX P&amp;L list, all read from the <code>CROSS_BORDER_BENCHMARK</code> view on a dedicated XSMALL warehouse.</figcaption>
+    </figure>
+    <div class="pair">
+      <figure class="shot">
+        <img src="images/02-corridors.png" width="1440" height="900" loading="lazy" alt="Corridors table: eight corridors with status pills (Accelerating, Steady, Margin watch), latest volume, a volume sparkline, growth, 3-month margin in bps and 12-month FX P&amp;L, with search, status and margin filters">
+        <figcaption><b>Corridors.</b> Every lane with sort, filters and status pills. Status rules run on the same view, so Sample and Live show the same flags.</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="images/03-corridor-detail.png" width="1440" height="900" loading="lazy" alt="Corridor detail panel for United States to Mexico (USD/MXN, Margin watch): KPI tiles, monthly FX P&amp;L bars with a margin line, the synthetic USD/MXN rate, and a month-by-month table">
+        <figcaption><b>Corridor detail.</b> One lane month by month: FX P&amp;L against margin, its FX path and the rows behind it, filtered from <code>CROSS_BORDER_BENCHMARK</code>.</figcaption>
+      </figure>
+    </div>
+    <figure class="shot">
+      <img src="images/04-fx-margin.png" width="1440" height="900" loading="lazy" alt="FX and margin view: FX rates for eight currency pairs indexed to July 2024, a bubble chart of volume growth against 3-month margin sized by FX P&amp;L, and a monthly margin heatmap">
+      <figcaption><b>FX &amp; margin.</b> FX paths on one indexed axis, growth against margin, and a margin heatmap by pair and month. The FX series is synthetic; the README shows how to swap in a Marketplace FX listing.</figcaption>
+    </figure>
+    <div class="pair">
+      <figure class="shot">
+        <img src="images/05-desk-note.png" width="1440" height="900" loading="lazy" alt="Desk notes: staged progress steps, a USD/MXN note marked Needs review because the verifier flagged the hedge word 'suggesting', and the note's table and bullets, labeled Sample AI response">
+        <figcaption><b>Desk notes.</b> Cortex <code>AI_COMPLETE</code> drafts a note from a fact pack of allowed numbers; a second <code>AI_COMPLETE</code> pass checks it and badges it Verified or Needs review. Notes are saved to a table.</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="images/06-ask-the-desk.png" width="1440" height="900" loading="lazy" alt="Ask the desk: suggested questions, completed agent steps and an answer naming USD/EUR as the top FX P&amp;L corridor in the first half of 2026, labeled Sample AI response">
+        <figcaption><b>Ask the desk.</b> A Cortex Agent uses Cortex Analyst over the <code>CROSS_BORDER_SV</code> semantic view, called with <code>DATA_AGENT_RUN</code>; the SQL it wrote is one click away.</figcaption>
+      </figure>
+    </div>
+    <p class="note">Screens are from the app's Sample mode. Its AI answers were captured from Live runs and are labeled "Sample AI response".</p>
+  </section>
+
+  <section class="wrap flow" aria-labelledby="flowh">
+    <h2 id="flowh">How Snowflake does each step</h2>
+    <ol class="steps">
+      <li><b>Govern the numbers.</b> Setup loads the synthetic book into tables owned by a least-privilege role and joins them in one corridor × month view, <code>CROSS_BORDER_BENCHMARK</code>.</li>
+      <li><b>Model the business terms.</b> A <a href="https://docs.snowflake.com/en/user-guide/views-semantic/overview">semantic view</a>, <code>CROSS_BORDER_SV</code>, names the facts, dimensions and metrics (volume, bps, FX P&amp;L).</li>
+      <li><b>Answer questions.</b> A <a href="https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents">Cortex Agent</a> uses <a href="https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst">Cortex Analyst</a> over the semantic view; the app calls it with <a href="https://docs.snowflake.com/en/sql-reference/functions/data_agent_run-snowflake-cortex">DATA_AGENT_RUN</a>.</li>
+      <li><b>Write and check the note.</b> <a href="https://docs.snowflake.com/en/sql-reference/functions/ai_complete">AI_COMPLETE</a> drafts from a fact pack, a second pass verifies it, and the verdict is stored in <code>CROSS_BORDER_REPORTS</code>.</li>
+      <li><b>Run the app.</b> <a href="https://docs.snowflake.com/en/developer-guide/streamlit/about-streamlit">Streamlit in Snowflake</a>, or locally on your laptop with key-pair auth.</li>
+    </ol>
+  </section>
+
+  <section class="wrap run" id="run" aria-labelledby="runh">
+    <h2 id="runh">Run it</h2>
+    <div class="cols">
+      <div><h3>No account</h3><p>Open the <a href="try/">hosted example</a>, or clone the repository and run <code>streamlit run app/streamlit_app.py</code> for Sample mode.</p></div>
+      <div><h3>On Snowflake</h3><p>Run <code>sql/setup.sql</code> in a worksheet, then deploy the app in Snowflake or set key-pair variables and switch to Live. <code>sql/cleanup.sql</code> removes everything.</p></div>
+      <div><h3>Prerequisites</h3><p>Enterprise Edition in a region with Cortex AI functions and Cortex Agents, and a role that can create a role, warehouse and database. About 15 seconds of setup; AI notes cost a fraction of a credit each.</p></div>
+    </div>
+  </section>
+
+  <section class="wrap disclaimer" aria-label="Disclaimer">
+    <p><b>Synthetic data, illustrative logic.</b> All corridors, volumes, margins and FX rates are generated; Ferrovane is fictional. This is an example, not a production application, and not financial, accounting or regulatory advice. It is not an official Snowflake product and is not supported by Snowflake Support. Review and test before any use with real data.</p>
+  </section>
+</main>
+<footer class="wrap foot">
+  <span>Owner: Javier Soliz · Last reviewed: November 2026 · Apache 2.0</span>
+  <span><a href="https://github.com/sfc-gh-jsoliz/sfguide-cross-border-fx">Repository</a> · <a href="https://docs.snowflake.com/en/user-guide/snowflake-cortex/aisql">Cortex AI functions</a> · <a href="https://sfc-gh-ooral.github.io/snow-packs/">More Snow Packs</a></span>
+</footer>
+</body>
+</html>

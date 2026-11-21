@@ -20,9 +20,9 @@ def show_answer(a, mode, animate):
            else '<span class="fv-cap">Live · Cortex Agent</span>')
     st.markdown(f'<div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap"><b>{brand.esc(a["question"])}</b>{lbl}</div>', unsafe_allow_html=True)
     if animate:
-        st.write_stream(stream(a["text"]))
+        st.write_stream(stream(brand.md_safe(a["text"])))
     else:
-        st.markdown(a["text"])
+        st.markdown(brand.md_safe(a["text"]))
     if a.get("table") and a["table"].get("rows"):
         st.dataframe(pd.DataFrame(a["table"]["rows"], columns=a["table"]["columns"]), hide_index=True, use_container_width=True)
     if a.get("sql"):

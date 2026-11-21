@@ -117,7 +117,7 @@ html,body,[class*="st-"],.stMarkdown,button,input,textarea,select{font-family:va
 @keyframes fvSpin{to{transform:rotate(360deg)}}
 .fv-src{font-size:.78rem;color:var(--muted);border-top:1px dashed var(--line);margin-top:.6rem;padding-top:.5rem}
 .fv-src code{font-family:var(--mono);font-size:.74rem;background:var(--surface2);border-radius:4px;padding:.05rem .3rem;color:var(--ink2)}
-.fv-note h1{font-size:1.25rem!important}.fv-note h2{font-size:1.02rem!important}
+[class*="st-key-note_body"] h1,[class*="st-key-card_answer"] h1{font-size:1.3rem!important;line-height:1.3!important;padding:.4rem 0!important}[class*="st-key-note_body"] h2,[class*="st-key-card_answer"] h2{font-size:1.05rem!important;padding:.6rem 0 .2rem!important}
 [data-testid="stMarkdownContainer"] table{font-size:.84rem}
 [data-testid="stMarkdownContainer"] th{background:var(--surface2)}
 .fv-empty{text-align:center;padding:2.2rem 1rem;color:var(--muted);font-size:.9rem}
@@ -214,3 +214,12 @@ def steps_html(steps, current, finished=False):
         cls = "done" if (i < current or finished) else ("now" if i == current else "")
         items.append(f'<li class="{cls}"><span class="ic"></span><span>{esc(s)}</span></li>')
     return f'<ul class="fv-steps">{"".join(items)}</ul>'
+
+
+def md_safe(text):
+    """Model markdown for st.markdown: dollar signs are not LaTeX, "•" lines become list items."""
+    lines = []
+    for ln in (text or "").replace("$", "\\$").split("\n"):
+        s = ln.lstrip()
+        lines.append("- " + s[1:].lstrip() if s.startswith("•") else ln)
+    return "\n".join(lines)
