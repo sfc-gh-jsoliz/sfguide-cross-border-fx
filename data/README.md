@@ -45,6 +45,7 @@ Measured from the generated files; the app should surface each one.
 2. **The biggest lane is not the richest per dollar.** USD/EUR carries the most volume and the most 24-month FX P&L ($84.0M) at under 50 bps, while USD/BRL and USD/INR earn 84-91 bps.
 3. **Holiday lift.** Total monthly volume steps up about 8% every November and December, then falls back in January (Dec 2025 $3.56B, Jan 2026 $3.31B).
 4. **Thin-margin lane.** USD/CAD runs the lowest margin (base 42 bps) and has the slowest FX P&L growth with USD/JPY (+9% for the last 12 months against the 12 before).
-5. **Dollar moves.** The synthetic dollar weakens against sterling (USD/GBP -4.3% over the window) and strengthens most against the real and the rupee (USD/BRL +5.0%, USD/INR +4.7%).
+5. **Margin squeeze on USD/MXN.** The seeded noise leaves USD/MXN's 3-month average margin 6 bps below its first three months (73.3 to 67.3 bps) while volume grows 39%, so the app flags it *Margin watch*. It comes from the noise, not a planted driver; the fixed seed keeps it in every run.
+6. **Dollar moves.** The synthetic dollar weakens against sterling (USD/GBP -4.3% over the window) and strengthens most against the real and the rupee (USD/BRL +5.0%, USD/INR +4.7%).
 
 Month-to-month margin changes of a few bps are noise by construction (± 6 bps), so the app compares three-month averages, not single months, before it flags a margin move.
