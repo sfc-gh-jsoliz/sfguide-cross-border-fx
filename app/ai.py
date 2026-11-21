@@ -89,7 +89,14 @@ def fact_pack(scope):
 
 
 def complete(prompt):
-    return session().sql("SELECT AI_COMPLETE(?, ?)", params=[MODEL, prompt]).collect()[0][0]
+    raw = session().sql("SELECT AI_COMPLETE(?, ?)", params=[MODEL, prompt]).collect()[0][0]
+    # The string result can arrive JSON-encoded ("..." with escapes); decode it once.
+    if isinstance(raw, str) and raw.startswith('"'):
+        try:
+            raw = json.loads(raw)
+        except ValueError:
+            pass
+    return raw.strip()
 
 
 def draft_note(fp):
@@ -99,8 +106,10 @@ def draft_note(fp):
 def verify(fp, draft):
     vp = (
         "You are a fact-checker. Compare the DRAFT against the FACTS JSON (only allowed source). Return ONLY a JSON object with keys "
-        "status ('verified' if every number/claim is supported and no hedge words like likely/approximately/around/could, else 'needs_review'), "
-        "residual_hedges (int), edits (array of strings, each naming the unsupported or hedged claim).\n\n"
+        "status (exactly 'verified' if every number/claim is supported and no hedge words like likely/approximately/around/could, else exactly 'needs_review'), "
+        "residual_hedges (int), edits (array of strings, each naming the unsupported or hedged claim). "
+        "Rounding a FACTS number to the draft's display units ($B/$M/$K with one or two decimals, whole or one-decimal "
+        "percentages, bps to one decimal) counts as supported; flag only wrong numbers, invented claims and hedges.\n\n"
         f"FACTS: {json.dumps(fp)}\n\nDRAFT:\n{draft}"
     )
     raw = complete(vp)

@@ -82,7 +82,9 @@ def render(mode):
         "Vol. growth": view.volume_growth * 100, "Margin 3m (bps)": view.margin_bps_3m,
         "Δ margin (bps)": view.margin_change_bps, "FX P&L 12m": view.pnl_12m, "P&L growth": view.pnl_growth * 100,
     })
-    styled = show.style.map(lambda s: STATUS_STYLE.get(s, ""), subset=["Status"])
+    styled = show.style.map(lambda s: STATUS_STYLE.get(s, ""), subset=["Status"]).format({
+        "Volume, latest": "${:,.0f}", "Vol. growth": "{:+.0f}%", "Margin 3m (bps)": "{:.1f}",
+        "Δ margin (bps)": "{:+.1f}", "FX P&L 12m": "${:,.0f}", "P&L growth": "{:+.0f}%"})
     with st.container(key="card_table"):
         st.markdown(f'<p class="fv-card-h">{len(view)} corridors</p><p class="fv-card-s">Select a row for the detail panel. Click a header to sort.</p>', unsafe_allow_html=True)
         ev = st.dataframe(styled, hide_index=True, use_container_width=True, on_select="rerun", selection_mode="single-row",

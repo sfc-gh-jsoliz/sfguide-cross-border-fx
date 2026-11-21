@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ferrovane Corridor Desk · Try the Cross-Border &amp; FX example (sample data)</title>
+<meta name="description" content="No-account example of the Cross-Border & FX Snowflake app, on synthetic data.">
+<link rel="icon" href="../assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/tokens.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="../" aria-label="Back to the guide">
+      <img src="../assets/logo.svg" width="30" height="30" alt="">
+      <span><b>Ferrovane Corridor Desk</b><small>Cross-border volume, FX margin and FX P&amp;L · treasury &amp; FX desk</small></span>
+    </a>
+    <div class="seg" role="group" aria-label="Data mode">
+      <button type="button" class="on" data-mode="Sample" aria-pressed="true">Sample</button>
+      <button type="button" data-mode="Live" aria-pressed="false">Live</button>
+    </div>
+    <div class="chips"><span class="chip sample"><i></i>Sample data</span><span class="chip">FX desk analyst · CROSS_BORDER_FX_ROLE</span></div>
+  </div>
+</header>
+<nav class="tabs" aria-label="Views"><div class="tabs-in" id="tabs"></div></nav>
+<main id="main" class="wrap" tabindex="-1"></main>
+<aside id="drawer" class="drawer" aria-hidden="true" aria-label="Corridor detail"><div class="drawer-in" id="drawer-in"></div></aside>
+<div id="scrim" class="scrim" hidden></div>
+<div id="tip" class="tip" role="tooltip" hidden></div>
+<footer class="foot wrap">Synthetic data and illustrative logic only; not production, financial or regulatory advice. Hosted example: always Sample mode. <a href="https://github.com/sfc-gh-jsoliz/sfguide-cross-border-fx#live-mode">Run it Live on Snowflake</a>.</footer>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

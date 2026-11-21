@@ -91,10 +91,10 @@ def corridor_summary(df):
         first3, last3 = g.head(3)["fx_margin_bps"].mean(), g.tail(3)["fx_margin_bps"].mean()
         pnl_growth = last12["fx_pnl_usd"].sum() / prev12["fx_pnl_usd"].sum() - 1
         vol_growth = g["cross_border_volume_usd"].iloc[-1] / g["cross_border_volume_usd"].iloc[0] - 1
-        if pnl_growth >= 0.15:
-            status = "Accelerating"
-        elif last3 - first3 <= -3:
+        if last3 - first3 <= -3:
             status = "Margin watch"
+        elif pnl_growth >= 0.15:
+            status = "Accelerating"
         else:
             status = "Steady"
         rows.append({

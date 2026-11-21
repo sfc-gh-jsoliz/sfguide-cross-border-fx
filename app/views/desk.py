@@ -75,7 +75,7 @@ def render(mode):
         st.markdown(f'<ul class="fv-rank">{items}</ul>', unsafe_allow_html=True)
 
     with st.container(key="card_status"):
-        st.markdown('<p class="fv-card-h">Corridor status</p><p class="fv-card-s">Accelerating: FX P&amp;L up 15% or more on the prior 12 months. Margin watch: 3-month average margin down 3 bps or more since the start of the window.</p>', unsafe_allow_html=True)
+        st.markdown('<p class="fv-card-h">Corridor status</p><p class="fv-card-s">Margin watch: 3-month average margin down 3 bps or more since the start of the window. Accelerating: otherwise, FX P&amp;L up 15% or more on the prior 12 months.</p>', unsafe_allow_html=True)
         counts = summ.status.value_counts()
         st.markdown(" ".join(f'{brand.pill(s)} <span style="font-family:var(--mono);margin-right:1rem">{counts.get(s, 0)}</span>'
                              for s in ("Accelerating", "Steady", "Margin watch")), unsafe_allow_html=True)
