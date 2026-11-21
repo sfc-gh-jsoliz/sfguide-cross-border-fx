@@ -1,125 +1,64 @@
-import json
+"""Ferrovane Corridor Desk - Cross-Border & FX on Snowflake.
+
+Run locally (Sample mode, no account):   streamlit run app/streamlit_app.py
+Live mode locally: set SNOWFLAKE_ACCOUNT, SNOWFLAKE_USER and SNOWFLAKE_PRIVATE_KEY_PATH
+(key-pair auth) and restart. In Streamlit in Snowflake the app uses its own session.
+"""
+import os
+import sys
+
 import streamlit as st
-from snowflake.snowpark.context import get_active_session
 
-st.set_page_config(page_title="Cross-Border & FX", layout="wide")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-SCHEMA = "SNOWPACK_CROSS_BORDER_FX.CORE"
-MODEL = "claude-sonnet-4-5"
-session = get_active_session()
-_rerun = getattr(st, "rerun", getattr(st, "experimental_rerun", lambda: None))
-BADGE = {"verified": "✅ Verified", "needs_review": "⚠️ Needs review"}
+import brand  # noqa: E402
+import data  # noqa: E402
+from views import ask, corridors, desk, fx_margin, notes  # noqa: E402
 
+st.set_page_config(page_title="Ferrovane Corridor Desk · Cross-Border & FX", page_icon="🧭", layout="wide",
+                   initial_sidebar_state="collapsed")
+st.markdown(brand.CSS, unsafe_allow_html=True)
 
-def sql_df(q, p=None):
-    df = session.sql(q, params=p or []).to_pandas()
-    df.columns = [c.lower() for c in df.columns]
-    return df
+LIVE_OK = data.live_configured()
+if "mode" not in st.session_state:
+    st.session_state.mode = "Live" if LIVE_OK else "Sample"
 
+VIEWS = {
+    "Desk": desk.render,
+    "Corridors": corridors.render,
+    "FX & Margin": fx_margin.render,
+    "Desk Notes": notes.render,
+    "Ask the Desk": ask.render,
+}
 
-def data_mode():
-    try:
-        r = session.sql(f"SELECT mode, note FROM {SCHEMA}.CROSS_BORDER_DATA_SOURCE_INFO").collect()[0]
-        return r[0], r[1]
-    except Exception:
-        return "unknown", ""
+with st.container(key="topbar"):
+    c1, c2, c3 = st.columns([5, 2.2, 3.4], vertical_alignment="center")
+    with c1:
+        st.html(
+        f'<div class="fv-brand">{brand.LOGO_IMG}<div><b>Ferrovane Corridor Desk</b>'
+        '<span>Cross-border volume, FX margin and FX P&amp;L · treasury &amp; FX desk</span></div></div>')
+    with c2:
+        st.segmented_control("Data mode", ["Sample", "Live"], key="mode", label_visibility="collapsed",
+                             help="Sample: bundled synthetic data, no account. Live: the same app on Snowflake.")
+    mode = st.session_state.mode or st.session_state.get("_last_mode", "Sample")
+    st.session_state["_last_mode"] = mode
+    env = ('<span class="fv-chip live"><span class="fv-dot"></span>Live · Snowflake</span>' if mode == "Live"
+           else '<span class="fv-chip sample"><span class="fv-dot"></span>Sample data</span>')
+    with c3:
+        st.html(f'<div class="fv-chips">{env}<span class="fv-chip">FX desk analyst · {data.ROLE}</span></div>')
 
+with st.container(key="nav"):
+    view = st.radio("View", list(VIEWS), horizontal=True, label_visibility="collapsed", key="view")
 
-def load_reports():
-    return sql_df(f"SELECT run_id, subject, status, edits_applied, residual_hedges, report_md, created_at FROM {SCHEMA}.CROSS_BORDER_REPORTS ORDER BY created_at DESC")
+if mode == "Live" and not LIVE_OK:
+    st.markdown(brand.header("Connect Live mode", "Live mode runs this same app on Snowflake. No connection is configured, so nothing is shown instead of falling back to sample data.", "Setup needed"), unsafe_allow_html=True)
+    st.markdown("1. Run `sql/setup.sql` in a Snowsight worksheet (about 15 s on an XSMALL warehouse).\n"
+                "2. Register a key pair on your Snowflake user, then set these variables and restart:")
+    st.code("export SNOWFLAKE_ACCOUNT=<org-account>\nexport SNOWFLAKE_USER=<YOUR_USER>\n"
+            "export SNOWFLAKE_PRIVATE_KEY_PATH=~/.snowflake/keys/<your_key>.p8\n"
+            "streamlit run app/streamlit_app.py", language="bash")
+    st.markdown("Or deploy the app as Streamlit in Snowflake (README, *Deploy the app in Snowflake*). "
+                "Switch back to **Sample** to keep exploring.")
+    st.stop()
 
-
-def fact_pack():
-    return session.sql(f"""
-        WITH w AS (SELECT MIN(month_end) a, MAX(month_end) z FROM {SCHEMA}.CROSS_BORDER_BENCHMARK)
-        SELECT ARRAY_AGG(OBJECT_CONSTRUCT(
-          'corridor', s.corridor_id, 'currency_pair', s.currency_pair,
-          'month', s.month_end::string,
-          'cross_border_volume_usd', s.cross_border_volume_usd,
-          'fx_rate', s.fx_rate, 'fx_margin_bps', s.fx_margin_bps,
-          'fx_pnl_usd', s.fx_pnl_usd))
-        FROM {SCHEMA}.CROSS_BORDER_BENCHMARK s JOIN w ON s.month_end IN (w.a, w.z)
-    """).collect()[0][0]
-
-
-def draft_note(fp):
-    rules = (
-        "You are a cross-border payments analyst. Write a concise corridor / FX note using ONLY the FACTS JSON.\n"
-        "DATA RULES: use only numbers in FACTS, copy exactly; fx_margin_bps is basis points (100 bps = 1%); dollars are USD, express $B/$M; "
-        "volume/PnL change = latest - earliest per corridor; FX rates are SYNTHETIC (real FX is a paid add-on); no estimates, no hedging, no outside benchmarks; missing = n/d.\n"
-        "OUTPUT markdown starting with '# ', a one-line takeaway (corridors grew volume / FX PnL), a table "
-        "(corridor | currency pair | volume start->now | fx margin bps | fx PnL start->now), 3 bullets, ending with '## Data Coverage'."
-    )
-    return session.sql("SELECT AI_COMPLETE(?, ?)", params=[MODEL, rules + f"\n\nFACTS: {fp}"]).collect()[0][0]
-
-
-def verify(fp, draft):
-    vp = (
-        "You are a fact-checker. Compare the DRAFT against the FACTS JSON (only allowed source). Return ONLY a JSON object with keys "
-        "status ('verified' if every number/claim is supported and no hedge words like likely/approximately/around/could, else 'needs_review'), "
-        "residual_hedges (int), edits (array of strings).\n\n" + f"FACTS: {fp}\n\nDRAFT:\n{draft}"
-    )
-    raw = session.sql("SELECT AI_COMPLETE(?, ?)", params=[MODEL, vp]).collect()[0][0]
-    s, e = raw.find("{"), raw.rfind("}")
-    try:
-        return json.loads(raw[s:e + 1])
-    except Exception:
-        return {"status": "needs_review", "residual_hedges": None, "edits": ["unparseable verifier output"]}
-
-
-st.title("Cross-Border & FX")
-st.caption("A payments processor's cross-border settlement volume, FX margin (bps) and FX PnL by corridor.")
-_mode, _note = data_mode()
-if _mode == "synthetic":
-    st.warning("Sample mode — synthetic corridor book AND synthetic FX. " + _note)
-elif _mode == "marketplace":
-    st.info("Live — " + _note)
-
-if "view" not in st.session_state:
-    st.session_state["view"] = "gallery"
-
-with st.sidebar:
-    st.subheader("Generate a note")
-    st.caption("Benchmarks all corridors and writes a verified cross-border / FX note.")
-    if st.button("Run cross-border analysis", type="primary", use_container_width=True):
-        with st.spinner("Fact pack → grounded draft → verify (~20-40s)..."):
-            fp = fact_pack()
-            draft = draft_note(fp)
-            v = verify(fp, draft)
-            status = "verified" if v.get("status") == "verified" else "needs_review"
-            session.sql(
-                f"INSERT INTO {SCHEMA}.CROSS_BORDER_REPORTS (subject, draft_md, report_md, status, edits_applied, residual_hedges) SELECT ?, ?, ?, ?, ?, ?",
-                params=["Cross-border FX performance", draft, draft, status, len(v.get("edits", [])), v.get("residual_hedges")],
-            ).collect()
-        st.success(f"Done — {BADGE[status]}")
-        st.session_state["view"] = "gallery"
-        _rerun()
-
-if st.session_state["view"].startswith("report:"):
-    run_id = st.session_state["view"].split(":", 1)[1]
-    rpt = load_reports()
-    row = rpt[rpt["run_id"] == run_id]
-    if st.button("← Back to gallery"):
-        st.session_state["view"] = "gallery"
-        _rerun()
-    if not row.empty:
-        r = row.iloc[0]
-        st.markdown(f"**{BADGE.get(r['status'], r['status'])}**  &nbsp; residual hedges: {r['residual_hedges']}  |  flagged: {r['edits_applied']}")
-        st.divider()
-        st.markdown(r["report_md"])
-else:
-    reports = load_reports()
-    if reports.empty:
-        st.info("No notes yet. Use the sidebar to generate one.")
-    else:
-        cols = st.columns(3)
-        for i, (_, r) in enumerate(reports.iterrows()):
-            with cols[i % 3]:
-                c = st.container()
-                c.markdown(f"**{BADGE.get(r['status'], r['status'])}**")
-                c.markdown(f"**{r['subject']}**")
-                c.caption(f"{str(r['created_at'])[:16]} · {r['edits_applied']} flagged")
-                if c.button("Open report", key=f"open_{r['run_id']}", use_container_width=True):
-                    st.session_state["view"] = f"report:{r['run_id']}"
-                    _rerun()
-                c.markdown("---")
+VIEWS[view](mode)
