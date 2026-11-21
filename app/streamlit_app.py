@@ -32,7 +32,7 @@ VIEWS = {
 }
 
 with st.container(key="topbar"):
-    c1, c2, c3 = st.columns([5, 2.2, 3.4], vertical_alignment="center")
+    c1, c2, c3 = st.columns([4.2, 2, 4], vertical_alignment="center")
     with c1:
         st.html(
         f'<div class="fv-brand">{brand.LOGO_IMG}<div><b>Ferrovane Corridor Desk</b>'

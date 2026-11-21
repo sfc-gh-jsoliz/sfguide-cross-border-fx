@@ -43,10 +43,10 @@ def detail(df, row):
     t = g[["month_end", "cross_border_volume_usd", "txn_count", "fx_margin_bps", "fx_pnl_usd", "fx_rate", "vol_mom_growth_pct"]].iloc[::-1]
     st.dataframe(t, hide_index=True, use_container_width=True, height=240, column_config={
         "month_end": "Month-end",
-        "cross_border_volume_usd": st.column_config.NumberColumn("Volume", format="$%,.0f"),
-        "txn_count": st.column_config.NumberColumn("Txns", format="%,.0f"),
+        "cross_border_volume_usd": st.column_config.NumberColumn("Volume", format="dollar"),
+        "txn_count": st.column_config.NumberColumn("Txns", format="localized"),
         "fx_margin_bps": st.column_config.NumberColumn("Margin bps", format="%.1f"),
-        "fx_pnl_usd": st.column_config.NumberColumn("FX P&L", format="$%,.0f"),
+        "fx_pnl_usd": st.column_config.NumberColumn("FX P&L", format="dollar"),
         "fx_rate": st.column_config.NumberColumn("FX rate", format="%.4f"),
         "vol_mom_growth_pct": st.column_config.NumberColumn("MoM vol %", format="%+.2f%%"),
     })
@@ -89,12 +89,12 @@ def render(mode):
         st.markdown(f'<p class="fv-card-h">{len(view)} corridors</p><p class="fv-card-s">Select a row for the detail panel. Click a header to sort.</p>', unsafe_allow_html=True)
         ev = st.dataframe(styled, hide_index=True, use_container_width=True, on_select="rerun", selection_mode="single-row",
                           key="corr_table", column_config={
-                              "Volume, latest": st.column_config.NumberColumn(format="$%,.0f"),
+                              "Volume, latest": st.column_config.NumberColumn(format="dollar"),
                               "Volume trend ($M)": st.column_config.LineChartColumn(width="small"),
                               "Vol. growth": st.column_config.NumberColumn(format="%+.0f%%"),
                               "Margin 3m (bps)": st.column_config.NumberColumn(format="%.1f"),
                               "Δ margin (bps)": st.column_config.NumberColumn(format="%+.1f"),
-                              "FX P&L 12m": st.column_config.NumberColumn(format="$%,.0f"),
+                              "FX P&L 12m": st.column_config.NumberColumn(format="dollar"),
                               "P&L growth": st.column_config.NumberColumn(format="%+.0f%%"),
                           })
     sel = ev.selection.rows if ev and ev.selection else []
